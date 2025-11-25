@@ -1,10 +1,26 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
+
+const scrolled = ref(false);
+
+const handleScroll = () => {
+  scrolled.value = window.scrollY > 0;
+};
+
+onMounted(() => {
+  handleScroll();
+  window.addEventListener('scroll', handleScroll, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
   <div class="app-shell">
-    <nav class="nav">
+    <nav :class="['nav', { 'nav--scrolled': scrolled }]">
       <RouterLink to="/" class="logo"> LLL_ST.PETE </RouterLink>
       <div class="nav-menu">
         <RouterLink to="/get-involved" class="nav-link">
@@ -49,9 +65,16 @@ import { RouterLink, RouterView } from 'vue-router';
   z-index: 100;
   font-family: var(--font-mono, monospace);
   font-weight: 700;
+  backdrop-filter: none;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+}
+
+.nav--scrolled {
   backdrop-filter: blur(10px);
   background: rgba(242, 240, 233, 0.85);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
 }
 
 .logo {

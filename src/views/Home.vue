@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import TheLogo from '../components/TheLogo.vue';
 
 const disciplines = [
 'Fashion',
@@ -107,10 +108,7 @@ onUnmounted(() => {
           <span class="block indent">LITTLE</span>
           <span class="block">LAB</span>
         </h1>
-        <div class="hero-shapes">
-          <div class="shape circle"></div>
-          <div class="shape arch"></div>
-        </div>
+        <TheLogo style="width:60%; left: 50%; margin-left: -45%; top: -20%" />
         <p class="hero-tagline reveal">
           meetups, workshops, and creative sprints<br />
           in <span class="invert">st. petersburg, fl</span>
@@ -218,9 +216,10 @@ onUnmounted(() => {
 .lab-container {
   width: 100%;
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: var(--bg, #F2F0E9);
   min-height: 100vh;
+  padding-top: 83px;
 }
 
 .grid-layout {
@@ -245,7 +244,7 @@ onUnmounted(() => {
 }
 
 .hero {
-  height: 100vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,7 +262,7 @@ onUnmounted(() => {
 .hero-title {
   font-family: var(--font-display, sans-serif);
   font-weight: 800;
-  font-size: clamp(3rem, 12vw, 10rem);
+  font-size: clamp(3rem, 11vw, 10rem);
   line-height: 0.85;
   text-transform: uppercase;
   color: var(--ink, #111);
@@ -292,62 +291,8 @@ onUnmounted(() => {
 
 }
 
-.hero-shapes {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.shape {
-  position: absolute;
-  opacity: 0.8;
-}
-
-.circle {
-  width: 30vw;
-  height: 30vw;
-  border: 1px solid var(--ink, #111);
-  border-radius: 50%;
-  top: 10%;
-  right: -5%;
-  animation: rotate 60s linear infinite;
-}
-
-.arch {
-  width: 20vw;
-  height: 40vw;
-  background-color: #C8553D;
-  border-radius: 20vw 20vw 0 0;
-  bottom: -10%;
-  left: 10%;
-  mix-blend-mode: multiply;
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
 .manifesto {
-  padding: 8rem 0;
+  padding: 5rem 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
