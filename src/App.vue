@@ -10,8 +10,8 @@ import { RouterLink, RouterView } from 'vue-router';
         <RouterLink to="/get-involved" class="nav-link">
           Get Involved
         </RouterLink>
+        <RouterLink to="/about" class="nav-link">About</RouterLink>
         <RouterLink to="/#events" class="nav-link">Events</RouterLink>
-        <RouterLink to="/#vibe" class="nav-link">The Vibe</RouterLink>
       </div>
       <RouterLink to="/get-involved" class="cta-link">Join the Lab</RouterLink>
     </nav>

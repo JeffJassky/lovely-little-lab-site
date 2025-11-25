@@ -3,54 +3,119 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <section class="get-involved">
-    <div class="intro">
+  <section class="full-page">
+    <header class="intro">
       <p class="eyebrow">Get Involved</p>
       <h1>Become a labmate.</h1>
       <p class="lede">
-        We’re building a creative playground in St. Pete. Pick how you want to plug in.
+        We’re building a spot for artists, engineers, designers, crafters, and
+        curious DIYers to share ideas and make things.
       </p>
-      <div class="cta-row">
-        <a class="cta primary" href="mailto:hello@lovelylittlelab.com">Email the Lab</a>
-        <a class="cta ghost" href="https://instagram.com" target="_blank" rel="noreferrer"
-          >Follow along</a
-        >
+    </header>
+
+    <section class="levels">
+      <div class="level-grid">
+        <article class="card">
+          <span class="pill">Join us</span>
+          <h3>Come hang out</h3>
+          <p>
+            Show up with a sketchbook, a laptop, or nothing at all. Hang out,
+            meet people, or work on stuff solo.
+          </p>
+        </article>
+        <article class="card">
+          <span class="pill">Share</span>
+          <h3>Share your work</h3>
+          <p>
+            Bring a project, moodboard, robot, poem, circuit, idea, or weird
+            obsession to Show & Tell or Idea Lab.
+          </p>
+        </article>
+        <article class="card highlight">
+          <span class="pill">Help Out</span>
+          <h3>Get Involved</h3>
+          <p>
+            Bring snacks, take photos, welcome new folks, facilitate connections
+            - nothing formal.
+          </p>
+        </article>
       </div>
-      <RouterLink class="cta inline" to="/get-involved/guide">Read the full involvement guide</RouterLink>
-      <RouterLink class="cta inline" to="/get-involved/playful">See the playful version</RouterLink>
-    </div>
+    </section>
+    <br />
+    <h2>Other ways to get involved</h2>
 
     <div class="card-grid">
       <article class="card">
         <span class="pill">Events</span>
         <h3>Host or co-host</h3>
-        <p>Run a workshop, salon, or sprint. We’ll help produce and promote it.</p>
+        <p>Run a workshop or sprint. We’ll help produce and promote it.</p>
       </article>
 
       <article class="card">
         <span class="pill">Community</span>
         <h3>Join the crew</h3>
-        <p>Help with programming, vibes, and operations. Light lift, high impact.</p>
+        <p>
+          Help with programming, vibes, and operations. Light lift, high impact.
+        </p>
       </article>
 
       <article class="card">
         <span class="pill">Space</span>
         <h3>Offer a venue</h3>
-        <p>Have a studio, shop, or warehouse? Let’s use it for a pop-up lab night.</p>
+        <p>
+          Have a studio, shop, or warehouse? Let’s use it for a pop-up lab
+          night.
+        </p>
       </article>
 
       <article class="card highlight">
         <h3>Just curious?</h3>
-        <p>Come hang. Meet people. Make something weird. You’re invited.</p>
+        <p>Come hang. Meet people. Make something cool. You’re invited.</p>
         <a class="cta inline" href="mailto:hello@lovelylittlelab.com">Say hi</a>
       </article>
     </div>
+
+    <section class="future">
+      <div>
+        <p class="eyebrow">Future ways to get involved</p>
+        <h2>What might come next.</h2>
+        <p class="lede">
+          We’ll move at the pace of the group. If these light you up, stick
+          around.
+        </p>
+      </div>
+      <div class="future-list">
+        <div class="future-item">Shared Workshop Space / A Permanent Home</div>
+        <div class="future-item">Tool & Equipment Donations</div>
+        <div class="future-item">Workshop + Event Hosting</div>
+        <div class="future-item">Founding Members</div>
+        <div class="future-item">Micro-grants + collaborative projects</div>
+        <div class="future-item">Partnerships with local arts + tech orgs</div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="cta-card">
+        <p class="eyebrow">Stay close</p>
+        <h2>Want updates as we grow?</h2>
+        <p>
+          Get event announcements, studio news, and creative opportunities. Low
+          volume, high quality.
+        </p>
+        <div class="cta-actions">
+          <RouterLink class="button primary" to="/#join"
+            >Join the mailing list</RouterLink
+          >
+        </div>
+      </div>
+      <div class="heart-mark" aria-hidden="true">&#9829;</div>
+    </section>
   </section>
 </template>
 
 <style scoped>
-.get-involved {
-  padding: 140px 2rem 6rem;
+.full-page {
+  padding: 140px 2rem 5rem;
   max-width: 1100px;
   margin: 0 auto;
   color: var(--ink);
@@ -59,15 +124,16 @@ import { RouterLink } from 'vue-router';
 
 .intro h1 {
   font-family: var(--font-display, sans-serif);
-  font-size: clamp(2.8rem, 6vw, 4.6rem);
-  margin: 0.25rem 0 0.75rem 0;
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  margin: 0.3rem 0 1rem 0;
 }
 
 .lede {
-  font-size: 1.2rem;
-  max-width: 680px;
-  line-height: 1.5;
-  color: #333;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #2f2f2f;
+  max-width: 900px;
+  margin: 0;
 }
 
 .eyebrow {
@@ -78,37 +144,19 @@ import { RouterLink } from 'vue-router';
   margin: 0;
 }
 
-.cta-row {
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0 0;
-  flex-wrap: wrap;
+.levels {
+  margin-top: 3.5rem;
 }
 
-.cta {
-  text-decoration: none;
-  font-family: var(--font-mono, monospace);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 0.9rem 1.4rem;
-  border: 1px solid var(--ink);
-  color: var(--ink);
-  transition: background 0.25s, color 0.25s;
-  font-size: 0.9rem;
+.levels-header h2 {
+  margin: 0.4rem 0 1rem 0;
+  font-size: 2rem;
 }
 
-.cta.primary {
-  background: var(--ink);
-  color: var(--bg);
-}
-
-.cta.primary:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.cta.ghost:hover {
-  background: rgba(0, 0, 0, 0.05);
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 .card-grid {
@@ -122,6 +170,14 @@ import { RouterLink } from 'vue-router';
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.08);
   padding: 1.5rem;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.8rem;
+}
+
+.card-grid .card {
   min-height: 180px;
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.05);
 }
@@ -129,36 +185,100 @@ import { RouterLink } from 'vue-router';
 .card.highlight {
   background: var(--ink);
   color: var(--bg);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .card h3 {
-  margin: 0.5rem 0;
+  margin: 0;
   font-family: var(--font-display, sans-serif);
-  letter-spacing: 0.5px;
+  font-size: 1.5rem;
 }
 
 .card p {
   margin: 0;
+  line-height: 1.6;
+}
+
+.card-grid .card h3 {
+  margin: 0.5rem 0;
+  letter-spacing: 0.5px;
+}
+
+.card-grid .card p {
+  margin: 0;
   line-height: 1.5;
-  color: inherit;
+}
+
+.card ul {
+  padding-left: 1.1rem;
+  margin: 0;
+  line-height: 1.6;
 }
 
 .pill {
   display: inline-block;
   font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  padding: 0.3rem 0.6rem;
+  padding: 0.35rem 0.7rem;
   background: rgba(17, 17, 17, 0.08);
-  border-radius: 99px;
+  border-radius: 999px;
+  margin: 0;
 }
 
 .card.highlight .pill {
   background: rgba(255, 255, 255, 0.12);
+}
+
+.list-block {
+  margin-top: 2.6rem;
+  padding: 1.8rem;
+  border: 1px dashed rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: #fffdf8;
+}
+
+.list-head h2 {
+  margin: 0 0 0.4rem 0;
+  font-family: var(--font-display, sans-serif);
+}
+
+.list-head p {
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  padding: 0.5rem 0.8rem;
+  background: #111;
+  color: #f2f0e9;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+a.cta {
+  text-decoration: none;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  font-size: 0.9rem;
+}
+
+.cta.ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .inline {
@@ -168,9 +288,111 @@ import { RouterLink } from 'vue-router';
   border-color: currentColor;
 }
 
-@media (max-width: 700px) {
-  .get-involved {
+.future {
+  margin-top: 4rem;
+  background: #111;
+  color: var(--bg);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.future h2 {
+  margin: 0.3rem 0 0.8rem 0;
+  font-family: var(--font-display, sans-serif);
+}
+
+.future .lede {
+  color: rgba(242, 240, 233, 0.85);
+}
+
+.future-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.future-item {
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+}
+
+section.cta {
+  margin-top: 3.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.cta-card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 2.2rem;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.08);
+}
+
+.cta-card h2 {
+  font-family: var(--font-display, sans-serif);
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+.cta-card p {
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  text-decoration: none;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  font-size: 0.9rem;
+}
+
+.button.primary {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.button.primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.button.ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.heart-mark {
+  margin-top: 1.5rem;
+  font-size: 2rem;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+@media (max-width: 720px) {
+  .full-page {
     padding-top: 120px;
+  }
+
+  .future {
+    padding: 2rem 1.5rem;
   }
 }
 </style>

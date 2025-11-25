@@ -125,12 +125,12 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            community meetups, workshops, and creative sprints for st. pete
-            artists, engineers and makers.
+            community meetups for st. pete artists, engineers and makers.
           </p>
           <div class="vibe-list">
-            <span>Get shi* done.</span>
+            <span>Meet cool people.</span>
             <span>Make friends.</span>
+            <span>Get shi* done.</span>
             <span>Stay inspired.</span>
           </div>
         </div>
