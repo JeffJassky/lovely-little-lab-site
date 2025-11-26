@@ -150,8 +150,8 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            LLL is a space for creative people a consistent, in-person place to
-            experiment, collaborate, and make progress on the things they care
+            LLL is a space for creative people to coexist, to experiment,
+            collaborate or work solo, and make progress on the things they care
             about.
           </p>
           <p class="lead">
@@ -271,10 +271,11 @@ onUnmounted(() => {
 }
 
 .hero-tagline {
-  margin-top: 2rem;
+  margin-top: 4rem;
   font-family: var(--font-mono, monospace);
   font-size: 1.1rem;
   line-height: 1.5;
+  font-weight: 500;
   .invert {
 	color: var(--accent);
   }
