@@ -7,7 +7,7 @@
 
 <style scoped>
 .logo-shapes {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   pointer-events: none;
@@ -37,6 +37,7 @@
   border-radius: 10000px 10000px 0 0;
   top: 0;
   left: 0%;
+  opacity: 0.75;
   mix-blend-mode: multiply;
   animation: float 6s ease-in-out infinite;
 }
@@ -56,7 +57,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-5%);
   }
 }
 </style>

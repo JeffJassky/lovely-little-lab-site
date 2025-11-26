@@ -103,12 +103,14 @@ onUnmounted(() => {
   <main class="lab-container">
     <header class="hero">
       <div class="hero-content">
-        <h1 class="hero-title reveal">
+        <TheLogo
+          style="position: absolute; width:60%; left: 50%; margin-left: -45%; top: -20%; z-index: 0;"
+        />
+        <h1 class="hero-title reveal" style="position: relative; z-index: 1;">
           <span class="block">LOVELY</span>
           <span class="block indent">LITTLE</span>
           <span class="block">LAB</span>
         </h1>
-        <TheLogo style="width:60%; left: 50%; margin-left: -45%; top: -20%" />
         <p class="hero-tagline reveal">
           meetups, workshops, and creative sprints<br />
           in <span class="invert">st. petersburg, fl</span>

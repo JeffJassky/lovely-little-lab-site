@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
+import TheLogo from './components/TheLogo.vue';
 
 const scrolled = ref(false);
 
@@ -21,7 +22,14 @@ onBeforeUnmount(() => {
 <template>
   <div class="app-shell">
     <nav :class="['nav', { 'nav--scrolled': scrolled }]">
-      <RouterLink to="/" class="logo"> LLL_ST.PETE </RouterLink>
+      <RouterLink
+        to="/"
+        class="logo"
+        style="display: flex; align-items: center; gap: 0.5em;"
+      >
+        <TheLogo style="width: 20px" />
+        LLL_ST.PETE
+      </RouterLink>
       <div class="nav-menu">
         <RouterLink to="/get-involved" class="nav-link">
           Get Involved

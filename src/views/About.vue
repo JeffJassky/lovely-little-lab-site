@@ -17,8 +17,8 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           </p>
           <div class="pill-row">
             <span class="pill">St. Petersburg, FL</span>
-            <span class="pill">Volunteer-led</span>
             <span class="pill">Bi-weekly gatherings</span>
+            <span class="pill">Volunteer-led</span>
           </div>
         </div>
         <aside class="origin-card">
@@ -69,9 +69,9 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
         <article class="arc-card">
           <h3>What the future holds</h3>
           <p class="muted">
-            Long-term, we hope to register as a non-profit and grow into shared
-            community workshop and studio space — but for now, the LLL is
-            wherever we gather.
+            Long-term, we hope to register as a 501c3 non-profit and grow into
+            shared community workshop and studio space — but for now, Lovely
+            Little Lab is wherever we gather.
           </p>
         </article>
       </div>
@@ -137,7 +137,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           </div>
         </div>
         <div class="founder-copy">
-          <p class="label">About the organizer</p>
+          <p class="label">Meet the organizer</p>
           <h3>Lover of art + tech, nerd.</h3>
           <p>
             Jeff Jassky is a creative technologist who works across code,
