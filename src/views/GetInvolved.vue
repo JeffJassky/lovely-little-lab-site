@@ -35,15 +35,14 @@ import { RouterLink } from 'vue-router';
           <span class="pill">Help Out</span>
           <h3>Get Involved</h3>
           <p>
-            Bring snacks, take photos, welcome new folks, facilitate connections
-            - nothing formal.
+            Bring snacks, take photos, welcome new folks, invite your friends -
+            nothing formal.
           </p>
         </article>
       </div>
     </section>
     <br />
-    <h2>Other ways to get involved</h2>
-
+    <h2>Looking for more?</h2>
     <div class="card-grid">
       <article class="card">
         <span class="pill">Events</span>

@@ -4,18 +4,51 @@ import { RouterLink, RouterView } from 'vue-router';
 import TheLogo from './components/TheLogo.vue';
 
 const scrolled = ref(false);
+const menuOpen = ref(false);
+const initialBodyOverflow = ref('');
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 0;
 };
 
+const setBodyScrollLock = (locked: boolean) => {
+  if (typeof document === 'undefined') return;
+
+  if (locked) {
+    initialBodyOverflow.value = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = initialBodyOverflow.value;
+  }
+};
+
+const closeMenu = () => {
+  if (!menuOpen.value) return;
+  menuOpen.value = false;
+  setBodyScrollLock(false);
+};
+
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value;
+  setBodyScrollLock(menuOpen.value);
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    closeMenu();
+  }
+};
+
 onMounted(() => {
   handleScroll();
   window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('keydown', handleKeydown);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('keydown', handleKeydown);
+  setBodyScrollLock(false);
 });
 </script>
 
@@ -38,7 +71,52 @@ onBeforeUnmount(() => {
         <RouterLink to="/#events" class="nav-link">Events</RouterLink>
       </div>
       <RouterLink to="/get-involved" class="cta-link">Join the Lab</RouterLink>
+      <button
+        type="button"
+        class="menu-toggle"
+        :class="{ 'menu-toggle--open': menuOpen }"
+        :aria-expanded="menuOpen"
+        :aria-label="menuOpen ? 'Close navigation' : 'Open navigation'"
+        @click="toggleMenu"
+      >
+        <span
+          class="menu-toggle__line menu-toggle__line--top"
+          aria-hidden="true"
+        ></span>
+        <span
+          class="menu-toggle__line menu-toggle__line--mid"
+          aria-hidden="true"
+        ></span>
+        <span
+          class="menu-toggle__line menu-toggle__line--bottom"
+          aria-hidden="true"
+        ></span>
+      </button>
     </nav>
+
+    <div
+      :class="['mobile-menu', { 'mobile-menu--open': menuOpen }]"
+      @click.self="closeMenu"
+    >
+      <div class="mobile-menu__content">
+        <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
+          Get Involved
+        </RouterLink>
+        <RouterLink to="/about" class="nav-link" @click="closeMenu">
+          About
+        </RouterLink>
+        <RouterLink to="/#events" class="nav-link" @click="closeMenu">
+          Events
+        </RouterLink>
+        <RouterLink
+          to="/get-involved"
+          class="cta-link mobile-cta"
+          @click="closeMenu"
+        >
+          Join the Lab
+        </RouterLink>
+      </div>
+    </div>
 
     <RouterView />
   </div>
@@ -70,7 +148,7 @@ onBeforeUnmount(() => {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1.5rem;
-  z-index: 100;
+  z-index: 200;
   font-family: var(--font-mono, monospace);
   font-weight: 700;
   backdrop-filter: none;
@@ -80,7 +158,7 @@ onBeforeUnmount(() => {
 }
 
 .nav--scrolled {
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(4px);
   background: rgba(242, 240, 233, 0.85);
   border-bottom-color: rgba(0, 0, 0, 0.06);
 }
@@ -127,21 +205,160 @@ onBeforeUnmount(() => {
   color: #fff;
 }
 
+.menu-toggle {
+  display: none;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  z-index: 150;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  overflow: visible;
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.menu-toggle__line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 999px;
+  transition: transform 0.55s cubic-bezier(0.83, 0, 0.17, 1), width 0.35s ease,
+    opacity 0.3s ease;
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+}
+
+.menu-toggle__line--top {
+  transform: translate(-50%, -50%) translateY(-7px);
+}
+
+.menu-toggle__line--mid {
+  transform: translate(-50%, -50%);
+}
+
+.menu-toggle__line--bottom {
+  transform: translate(-50%, -50%) translateY(7px);
+}
+
+.menu-toggle--open .menu-toggle__line {
+  background: var(--ink);
+  width: 24px;
+}
+
+.menu-toggle--open .menu-toggle__line--top {
+  transform: translate(-50%, -50%) rotate(60deg);
+}
+
+.menu-toggle--open .menu-toggle__line--mid {
+  transform: translate(-50%, -50%) rotate(-60deg);
+}
+
+.menu-toggle--open .menu-toggle__line--bottom {
+  transform: translate(-50%, -50%) rotate(0deg) scaleX(0.9);
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem 3rem;
+  background: var(--bg);
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+  pointer-events: none;
+  z-index: 130;
+}
+
+.mobile-menu--open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-menu__content {
+  width: min(480px, 90vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+}
+
+.mobile-menu .nav-link {
+  color: var(--ink);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid transparent;
+}
+
+.mobile-menu .nav-link:hover {
+  border-bottom-color: rgba(17, 17, 17, 0.25);
+}
+
+.mobile-cta {
+  color: var(--bg);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  margin-top: 0.5rem;
+}
+
+.mobile-cta:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+@media (min-width: 901px) {
+  .menu-toggle,
+  .mobile-menu {
+    display: none;
+  }
+}
+
 @media (max-width: 900px) {
   .nav {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: start;
+    text-align: left;
+    padding: 1rem 1.25rem;
   }
 
   .nav-menu {
-    order: 3;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: none;
   }
 
   .cta-link {
-    order: 2;
+    display: none;
+  }
+
+  .logo {
+    justify-self: start;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .mobile-menu {
+    display: flex;
   }
 }
 </style>

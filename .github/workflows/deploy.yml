@@ -27,7 +27,7 @@ jobs:
           node-version: 18
           cache: npm
 
-      - name: Install dependencies
+      - name: Install dependenciesH
         run: npm install
 
       - name: Build

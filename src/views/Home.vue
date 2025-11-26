@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import TheLogo from '../components/TheLogo.vue';
+import TheFullLogo from '../components/TheFullLogo.vue';
+import TheMarquee from '../components/TheMarquee.vue';
 
 const disciplines = [
 'Fashion',
@@ -103,14 +104,7 @@ onUnmounted(() => {
   <main class="lab-container">
     <header class="hero">
       <div class="hero-content">
-        <TheLogo
-          style="position: absolute; width:60%; left: 50%; margin-left: -45%; top: -20%; z-index: 0;"
-        />
-        <h1 class="hero-title reveal" style="position: relative; z-index: 1;">
-          <span class="block">LOVELY</span>
-          <span class="block indent">LITTLE</span>
-          <span class="block">LAB</span>
-        </h1>
+        <the-full-logo />
         <p class="hero-tagline reveal">
           meetups, workshops, and creative sprints<br />
           in <span class="invert">st. petersburg, fl</span>
@@ -137,16 +131,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <div class="marquee-container">
-      <div class="marquee">
-        <span
-          v-for="(item, index) in [...disciplines, ...disciplines]"
-          :key="index"
-        >
-          {{ item }} <span class="separator">✦</span>
-        </span>
-      </div>
-    </div>
+    <the-marquee :items="disciplines" />
 
     <section id="events" class="program reveal">
       <div class="section-label">UPCOMING EVENTS</div>
@@ -165,7 +150,7 @@ onUnmounted(() => {
     </section>
 
     <section class="logistics reveal">
-      <div class="grid-layout">
+      <div class="flex-layout">
         <div class="logistics-visual">
           <div class="map-graphic">
             <div class="pin"></div>
@@ -214,7 +199,7 @@ onUnmounted(() => {
   </main>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .lab-container {
   width: 100%;
   max-width: 100vw;
@@ -233,6 +218,15 @@ onUnmounted(() => {
   padding: 0 2rem;
 }
 
+.flex-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
 @media (min-width: 768px) {
   .grid-layout {
     grid-template-columns: 1fr 2fr;
@@ -246,7 +240,7 @@ onUnmounted(() => {
 }
 
 .hero {
-  height: 80vh;
+  height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -255,30 +249,10 @@ onUnmounted(() => {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.hero-content {
-  text-align: center;
-  z-index: 2;
-  position: relative;
-}
-
-.hero-title {
-  font-family: var(--font-display, sans-serif);
-  font-weight: 800;
-  font-size: clamp(3rem, 11vw, 10rem);
-  line-height: 0.85;
-  text-transform: uppercase;
-  color: var(--ink, #111);
-  margin: 0;
-}
-
-.hero-title .block {
-  display: block;
-}
-
-.hero-title .indent {
-  margin-left: 1.5ch;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ink, #111);
+.hero-content{
+	width: 80vw;
+	max-width: 800px;
+	text-align: center;
 }
 
 .hero-tagline {
@@ -289,9 +263,6 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-.hero-content .invert{
-
-}
 
 .manifesto {
   padding: 5rem 0;
@@ -327,42 +298,6 @@ onUnmounted(() => {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 0.9rem;
-}
-
-.marquee-container {
-  padding: 3rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  white-space: nowrap;
-  background: #111;
-  color: #F2F0E9;
-}
-
-.marquee {
-  display: inline-block;
-  animation: scroll 30s linear infinite;
-}
-
-.marquee span {
-  font-family: var(--font-display, sans-serif);
-  font-size: 4rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-right: 2rem;
-}
-
-.separator {
-  color: #C8553D;
-  font-weight: 400;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 .program {
@@ -436,19 +371,31 @@ onUnmounted(() => {
   background: #EAE8E0;
 }
 
+.logistics-visual,
+.logistics-info {
+  flex: 1;
+}
+
+.logistics-visual {
+  display: flex;
+  justify-content: center;
+}
+
 .map-graphic {
-  width: 100%;
-  height: 300px;
-  border: 1px solid #111;
+  height: 40vh;
+  border: 4px solid #111;
   position: relative;
   background: linear-gradient(#111 1px, transparent 1px),
     linear-gradient(90deg, #111 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-color: #F2F0E9;
-  opacity: 0.5;
+  background-size: 50px 50px;
+  background-color: #F4F1E8;
+  background-position: center;
+  aspect-ratio: 5 / 6;
+  opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 1em 1em 0 #d7d4cb;
 }
 
 .pin {
@@ -539,6 +486,13 @@ onUnmounted(() => {
 @media (min-width: 600px) {
   .signup-form {
     flex-direction: row;
+  }
+}
+
+@media (min-width: 900px) {
+  .flex-layout {
+    flex-direction: row;
+    align-items: center;
   }
 }
 
