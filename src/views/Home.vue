@@ -4,26 +4,20 @@ import TheFullLogo from '../components/TheFullLogo.vue';
 import TheMarquee from '../components/TheMarquee.vue';
 
 const disciplines = [
-'Fashion',
-'Jewelry',
-'Industrial Design',
-'Painting',
-'Coding',
-'Robotics',
-'Poetry',
-'Woodworking',
-'Metalworking',
-'Ceramics',
-'Sound & Light',
-'Game Design',
-'Electronics',
-'Photography',
-'Film',
-'Music',
-'Sculpture',
-'Animation',
-'UI / UX'
+  'Art & Illustration',
+  'Design & Craft',
+  'Fashion & Jewelry',
+  'Code & Creative Tech',
+  'Robotics & Electronics',
+  'Wood & Metal',
+  'Ceramics',
+  'Photography & Film',
+  'Music & Sound',
+  'Animation & Games',
+  'Writing & Poetry',
+  'UI/UX'
 ];
+
 
 const categories = [
   {
@@ -106,8 +100,8 @@ onUnmounted(() => {
       <div class="hero-content reveal">
         <the-full-logo />
         <p class="hero-tagline">
-          meetups, workshops, and creative sprints<br />
-          in <span class="invert">st. petersburg, fl</span>
+          a creative community for artists, engineers and makers<br />
+          <span class="invert">in st. petersburg, fl</span>
         </p>
       </div>
     </header>
@@ -119,10 +113,10 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            community meetups for st. pete artists, engineers and makers.
+            bi-weekly creative nights where you can meet your people, stay
+            inspired, finish things, and explore new ideas.
           </p>
           <div class="vibe-list">
-            <span>Meet cool people.</span>
             <span>Make friends.</span>
             <span>Get shi* done.</span>
             <span>Stay inspired.</span>
@@ -145,6 +139,26 @@ onUnmounted(() => {
               <span class="event-desc">{{ event.desc }}</span>
             </li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="vibe" class="manifesto reveal">
+      <div class="grid-layout">
+        <div class="manifesto-header">
+          <h2>WHY'S LLL EXIST?</h2>
+        </div>
+        <div class="manifesto-text">
+          <p class="lead">
+            LLL is a space for creative people a consistent, in-person place to
+            experiment, collaborate, and make progress on the things they care
+            about.
+          </p>
+          <p class="lead">
+            It’s a home base for people who love making physical and digital
+            things and want a space where inspiration, energy, and interesting
+            people are always in the room.
+          </p>
         </div>
       </div>
     </section>
@@ -261,6 +275,9 @@ onUnmounted(() => {
   font-family: var(--font-mono, monospace);
   font-size: 1.1rem;
   line-height: 1.5;
+  .invert {
+	color: var(--accent);
+  }
 }
 
 

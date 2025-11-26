@@ -9,6 +9,7 @@ const initialBodyOverflow = ref('');
 const showFontBar = ref(true);
 const fontBarDone = ref(false);
 const fontBarProgress = ref(0.08);
+const fontsReady = ref(false);
 let fontReadyFallback: number | undefined;
 
 const handleScroll = () => {
@@ -47,6 +48,7 @@ const finishFontBar = () => {
   if (fontBarDone.value) return;
   fontBarProgress.value = 1;
   fontBarDone.value = true;
+  fontsReady.value = true;
   window.setTimeout(() => {
     showFontBar.value = false;
   }, 450);
@@ -95,71 +97,77 @@ onBeforeUnmount(() => {
       :style="{ transform: 'scaleX(' + fontBarProgress + ')' }"
       aria-hidden="true"
     ></div>
-    <nav :class="['nav', { 'nav--scrolled': scrolled }]">
-      <RouterLink
-        to="/"
-        class="logo"
-        style="display: flex; align-items: center; gap: 0.5em;"
-      >
-        <TheLogo style="width: 20px" />
-        LLL_ST.PETE
-      </RouterLink>
-      <div class="nav-menu">
-        <RouterLink to="/#events" class="nav-link">Events</RouterLink>
-        <RouterLink to="/get-involved" class="nav-link">
-          Get Involved
-        </RouterLink>
-        <RouterLink to="/about" class="nav-link">About</RouterLink>
-      </div>
-      <RouterLink to="/get-involved" class="cta-link">Join the Lab</RouterLink>
-      <button
-        type="button"
-        class="menu-toggle"
-        :class="{ 'menu-toggle--open': menuOpen }"
-        :aria-expanded="menuOpen"
-        :aria-label="menuOpen ? 'Close navigation' : 'Open navigation'"
-        @click="toggleMenu"
-      >
-        <span
-          class="menu-toggle__line menu-toggle__line--top"
-          aria-hidden="true"
-        ></span>
-        <span
-          class="menu-toggle__line menu-toggle__line--mid"
-          aria-hidden="true"
-        ></span>
-        <span
-          class="menu-toggle__line menu-toggle__line--bottom"
-          aria-hidden="true"
-        ></span>
-      </button>
-    </nav>
-
-    <div
-      :class="['mobile-menu', { 'mobile-menu--open': menuOpen }]"
-      @click.self="closeMenu"
-    >
-      <div class="mobile-menu__content">
-        <RouterLink to="/#events" class="nav-link" @click="closeMenu">
-          Events
-        </RouterLink>
+    <template v-if="fontsReady">
+      <nav :class="['nav', { 'nav--scrolled': scrolled }]">
         <RouterLink
-          to="/get-involved"
-          class="cta-link mobile-cta"
-          @click="closeMenu"
+          to="/"
+          class="logo"
+          style="display: flex; align-items: center; gap: 0.5em;"
         >
-          Join the Lab
+          <TheLogo style="width: 20px" />
+          LLL_ST.PETE
         </RouterLink>
-        <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
-          Get Involved
-        </RouterLink>
-        <RouterLink to="/about" class="nav-link" @click="closeMenu">
-          About
-        </RouterLink>
-      </div>
-    </div>
+        <div class="nav-menu">
+          <RouterLink to="/#events" class="nav-link">Events</RouterLink>
+          <RouterLink to="/get-involved" class="nav-link">
+            Get Involved
+          </RouterLink>
+          <RouterLink to="/about" class="nav-link">About</RouterLink>
+        </div>
+        <RouterLink to="/get-involved" class="cta-link">Join the Lab</RouterLink>
+        <button
+          type="button"
+          class="menu-toggle"
+          :class="{ 'menu-toggle--open': menuOpen }"
+          :aria-expanded="menuOpen"
+          :aria-label="menuOpen ? 'Close navigation' : 'Open navigation'"
+          @click="toggleMenu"
+        >
+          <span
+            class="menu-toggle__line menu-toggle__line--top"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="menu-toggle__line menu-toggle__line--mid"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="menu-toggle__line menu-toggle__line--bottom"
+            aria-hidden="true"
+          ></span>
+        </button>
+      </nav>
 
-    <RouterView />
+      <div
+        :class="['mobile-menu', { 'mobile-menu--open': menuOpen }]"
+        @click.self="closeMenu"
+      >
+        <div class="mobile-menu__content">
+          <RouterLink to="/#events" class="nav-link" @click="closeMenu">
+            Events
+          </RouterLink>
+          <RouterLink
+            to="/get-involved"
+            class="cta-link mobile-cta"
+            @click="closeMenu"
+          >
+            Join the Lab
+          </RouterLink>
+          <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
+            Get Involved
+          </RouterLink>
+          <RouterLink to="/about" class="nav-link" @click="closeMenu">
+            About
+          </RouterLink>
+        </div>
+      </div>
+
+      <RouterView />
+    </template>
+    <div v-else class="font-waiter" aria-live="polite">
+      <span class="font-waiter__dot"></span>
+      <span class="font-waiter__text">Loading type…</span>
+    </div>
   </div>
 </template>
 
@@ -185,7 +193,7 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 3px;
-  background: var(--accent);
+  background: var(--ink);
   transform-origin: left center;
   opacity: 0.9;
   transition: transform 0.9s ease, opacity 0.4s ease 0.4s;
@@ -205,6 +213,44 @@ onBeforeUnmount(() => {
 
 .font-progress--done {
   opacity: 0;
+}
+
+.font-waiter {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 1px;
+  color: var(--ink);
+}
+
+.font-waiter__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.font-waiter__text {
+  font-size: 0.9rem;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
 }
 
 .nav {
