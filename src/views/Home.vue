@@ -103,9 +103,9 @@ onUnmounted(() => {
 <template>
   <main class="lab-container">
     <header class="hero">
-      <div class="hero-content">
+      <div class="hero-content reveal">
         <the-full-logo />
-        <p class="hero-tagline reveal">
+        <p class="hero-tagline">
           meetups, workshops, and creative sprints<br />
           in <span class="invert">st. petersburg, fl</span>
         </p>
@@ -253,6 +253,7 @@ onUnmounted(() => {
 	width: 80vw;
 	max-width: 800px;
 	text-align: center;
+	opacity: 0;
 }
 
 .hero-tagline {
@@ -260,7 +261,6 @@ onUnmounted(() => {
   font-family: var(--font-mono, monospace);
   font-size: 1.1rem;
   line-height: 1.5;
-  opacity: 0;
 }
 
 

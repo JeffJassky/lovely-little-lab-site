@@ -6,6 +6,10 @@ import TheLogo from './components/TheLogo.vue';
 const scrolled = ref(false);
 const menuOpen = ref(false);
 const initialBodyOverflow = ref('');
+const showFontBar = ref(true);
+const fontBarDone = ref(false);
+const fontBarProgress = ref(0.08);
+let fontReadyFallback: number | undefined;
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 0;
@@ -39,21 +43,58 @@ const handleKeydown = (event: KeyboardEvent) => {
   }
 };
 
+const finishFontBar = () => {
+  if (fontBarDone.value) return;
+  fontBarProgress.value = 1;
+  fontBarDone.value = true;
+  window.setTimeout(() => {
+    showFontBar.value = false;
+  }, 450);
+};
+
 onMounted(() => {
   handleScroll();
   window.addEventListener('scroll', handleScroll, { passive: true });
   window.addEventListener('keydown', handleKeydown);
+
+  requestAnimationFrame(() => {
+    fontBarProgress.value = 0.65;
+  });
+
+  const fontReady = document.fonts?.ready;
+  fontReadyFallback = window.setTimeout(finishFontBar, 1800);
+
+  if (fontReady?.then) {
+    fontReady
+      .then(() => {
+        window.clearTimeout(fontReadyFallback);
+        finishFontBar();
+      })
+      .catch(finishFontBar);
+  } else {
+    finishFontBar();
+  }
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
   window.removeEventListener('keydown', handleKeydown);
   setBodyScrollLock(false);
+  if (fontReadyFallback !== undefined) {
+    window.clearTimeout(fontReadyFallback);
+  }
 });
 </script>
 
 <template>
   <div class="app-shell">
+    <div
+      v-if="showFontBar"
+      class="font-progress"
+      :class="{ 'font-progress--done': fontBarDone }"
+      :style="{ transform: 'scaleX(' + fontBarProgress + ')' }"
+      aria-hidden="true"
+    ></div>
     <nav :class="['nav', { 'nav--scrolled': scrolled }]">
       <RouterLink
         to="/"
@@ -64,11 +105,11 @@ onBeforeUnmount(() => {
         LLL_ST.PETE
       </RouterLink>
       <div class="nav-menu">
+        <RouterLink to="/#events" class="nav-link">Events</RouterLink>
         <RouterLink to="/get-involved" class="nav-link">
           Get Involved
         </RouterLink>
         <RouterLink to="/about" class="nav-link">About</RouterLink>
-        <RouterLink to="/#events" class="nav-link">Events</RouterLink>
       </div>
       <RouterLink to="/get-involved" class="cta-link">Join the Lab</RouterLink>
       <button
@@ -99,12 +140,6 @@ onBeforeUnmount(() => {
       @click.self="closeMenu"
     >
       <div class="mobile-menu__content">
-        <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
-          Get Involved
-        </RouterLink>
-        <RouterLink to="/about" class="nav-link" @click="closeMenu">
-          About
-        </RouterLink>
         <RouterLink to="/#events" class="nav-link" @click="closeMenu">
           Events
         </RouterLink>
@@ -114,6 +149,12 @@ onBeforeUnmount(() => {
           @click="closeMenu"
         >
           Join the Lab
+        </RouterLink>
+        <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
+          Get Involved
+        </RouterLink>
+        <RouterLink to="/about" class="nav-link" @click="closeMenu">
+          About
         </RouterLink>
       </div>
     </div>
@@ -136,6 +177,34 @@ onBeforeUnmount(() => {
 .app-shell {
   background-color: var(--bg);
   min-height: 100vh;
+}
+
+.font-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left center;
+  opacity: 0.9;
+  transition: transform 0.9s ease, opacity 0.4s ease 0.4s;
+  z-index: 220;
+  pointer-events: none;
+}
+
+.font-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 80px;
+  background: linear-gradient(90deg, transparent, rgba(17, 17, 17, 0.35));
+}
+
+.font-progress--done {
+  opacity: 0;
 }
 
 .nav {
