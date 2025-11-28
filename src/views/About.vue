@@ -12,8 +12,9 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           <h1>Lovely Little Lab</h1>
           <p class="lede">
             Lovely Little Lab is a volunteer-run creative group in St.
-            Petersburg, Florida. We bring together creative and technical minds
-            to connect, support each other, and get things done.
+            Petersburg, Florida that comes together to connect, share ideas, and
+            make progress things we care about. Just people sharing space to
+            make things.
           </p>
           <div class="pill-row">
             <span class="pill">St. Petersburg, FL</span>
@@ -25,9 +26,9 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           <p class="label">Why LLL exists</p>
           <h3>A space for art + tech to intersect.</h3>
           <p>
-            St. Pete has great pockets of creativity, but few spaces where art,
-            tech, craft, design, writing, music, and engineering comfortably
-            intersect.
+            St. Pete is full of creative energy - but it can be hard to find a
+            low-structure environment where everyone can get together regularly
+            to just hang and work on stuff.
           </p>
           <p class="note">
             No pretension. No gatekeeping. Just creative people doing what we
@@ -38,30 +39,20 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
     </header>
 
     <section class="story-arc">
-      <div class="section-head" v-if="false">
-        <p class="eyebrow">Story so far</p>
-        <h2>From a roaming crew to a future home.</h2>
-        <p class="section-sub">
-          We’re building this in the open — meeting up, learning what works, and
-          shaping the Lab together.
-        </p>
-      </div>
       <div class="arc-grid">
         <article class="arc-card">
           <h3>How we gather</h3>
           <p>
-            We host bi-weekly meetups centered around sharing, making, thinking,
-            and connecting.
-          </p>
-          <p class="muted">
-            Events rotate — some structured, some loose — but always centered on
-            creativity.
+            We meet every two weeks for nights built around making stuff. This
+            can include inspiration to start a new project, making progress on a
+            stagnant project, share ideas and WIPs, explore concepts and
+            creative process, make friends and community.
           </p>
         </article>
         <article class="arc-card">
           <h3>Where we meet</h3>
           <p>
-            We host rotating meetups around St. Pete — often in coworking
+            We have rotating meetups around St. Pete — often in coworking
             spaces, creative hubs, or public locations.
           </p>
           <p class="muted">Event details are always shared in advance.</p>
@@ -69,9 +60,9 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
         <article class="arc-card">
           <h3>What the future holds</h3>
           <p class="muted">
-            Long-term, we hope to register as a 501c3 non-profit and grow into
-            shared community workshop and studio space — but for now, Lovely
-            Little Lab is wherever we gather.
+            Long-term, the goal is to register as a 501c3 non-profit and grow
+            into a permanent shared community workshop and makerspace — but for
+            now, Lovely Little Lab is wherever we gather.
           </p>
         </article>
       </div>
@@ -86,11 +77,12 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
       <div class="timeline">
         <div class="timeline-line"></div>
         <div class="step">
-          <div class="marker">Share</div>
+          <div class="marker">Meet</div>
           <div class="step-body">
-            <h4>Show & Tell</h4>
+            <h4>Meet & greet</h4>
             <p>
-              Show works-in-progress, obsessions, or ideas that need a sounding
+              Say hey, get to know each other, and find a space to work in. Show
+              works-in-progress, obsessions, or ideas that need a sounding
               board.
             </p>
           </div>
@@ -100,26 +92,19 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           <div class="step-body">
             <h4>Co-work and build</h4>
             <p>
-              Find a corner, bring a laptop or sketchbook, and get things done
+              Grab a desk, table, or cozy corner to post up and get things done
               alongside other makers.
-            </p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="marker">Think</div>
-          <div class="step-body">
-            <h4>Trade process</h4>
-            <p>
-              Talk tools, process, and experiments across disciplines —
-              engineers, artists, and tinkerers together.
             </p>
           </div>
         </div>
         <div class="step">
           <div class="marker">Connect</div>
           <div class="step-body">
-            <h4>Leave with new inspiration</h4>
-            <p>Learn from new perspectives - or even with new collaborators.</p>
+            <h4>Get inspired</h4>
+            <p>
+              Chat tools, process, inspiration and experiments across
+              disciplines — Make friends, find collaborators, learn cool stuff.
+            </p>
           </div>
         </div>
       </div>
@@ -138,16 +123,17 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
         </div>
         <div class="founder-copy">
           <p class="label">Meet the organizer</p>
-          <h3>Lover of art + tech, nerd.</h3>
+          <h3>Art lover + tech nerd</h3>
           <p>
             Jeff Jassky is a creative technologist who works across code,
-            photography, robotics, film, music, industrial design, and anything
-            that needs a dose of creative or technical whimsy.
+            photography, film, music, electronics, robotics, industrial design,
+            fabrication and anything that needs a dose of creative or technical
+            whimsy.
           </p>
           <p>
-            As someone who loves interdisciplinary thinking, creative workflows,
-            and building great communities — I wanted to create a space where
-            creative and technical people could meet and work together.
+            As someone who's passionate about interdisciplinary thinking,
+            creative workflows and community I wanted to co-create space for
+            creative and technical to meet, work, innovate, and grow together.
           </p>
         </div>
       </article>
@@ -167,9 +153,9 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           collaboratively.
         </p>
         <div class="cta-row">
-          <RouterLink class="button primary" to="/#join"
-            >Join the mailing list</RouterLink
-          >
+          <RouterLink class="button primary" to="/#join">
+            Join the mailing list
+          </RouterLink>
           <a
             class="button ghost"
             href="https://instagram.com"
@@ -401,7 +387,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
   font-family: var(--font-mono, monospace);
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
 }
 

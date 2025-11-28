@@ -8,8 +8,8 @@ import { RouterLink } from 'vue-router';
       <p class="eyebrow">Get Involved</p>
       <h1>Become a labmate.</h1>
       <p class="lede">
-        We’re building a spot for artists, engineers, designers, crafters, and
-        curious DIYers to share ideas and make things.
+        LLL is great because creative, curious people like you show up and make
+        it that way.
       </p>
     </header>
 
@@ -17,61 +17,68 @@ import { RouterLink } from 'vue-router';
       <div class="level-grid">
         <article class="card">
           <span class="pill">Join us</span>
-          <h3>Come hang out</h3>
+          <h3>Hang out</h3>
           <p>
-            Show up with a sketchbook, a laptop, or nothing at all. Hang out,
-            meet people, or work on stuff solo.
+            Bring a sketchbook, laptop, notebook, a half-finished thing, or
+            nothing at all. Work solo, meet people, or just come scope out the
+            energy.
           </p>
         </article>
         <article class="card">
           <span class="pill">Share</span>
           <h3>Share your work</h3>
           <p>
-            Bring a project, moodboard, robot, poem, circuit, idea, or weird
-            obsession to Show & Tell or Idea Lab.
+            Bring a WIP, moodboard, robot, poem, idea, or weird obsession. You
+            never have to present - just sharing the space is enough.
           </p>
         </article>
         <article class="card highlight">
-          <span class="pill">Help Out</span>
-          <h3>Get Involved</h3>
+          <span class="pill">Get Involved</span>
+          <h3>Help Out</h3>
           <p>
-            Bring snacks, take photos, welcome new folks, invite your friends -
-            nothing formal.
+            Bring snacks, take a few photos, welcome new folks, invite friends,
+            help set up or break down. Nothing formal - just community energy.
           </p>
         </article>
       </div>
     </section>
-    <br />
-    <h2>Looking for more?</h2>
-    <div class="card-grid">
-      <article class="card">
-        <span class="pill">Events</span>
-        <h3>Host or co-host</h3>
-        <p>Run a workshop or sprint. We’ll help produce and promote it.</p>
-      </article>
 
-      <article class="card">
-        <span class="pill">Community</span>
-        <h3>Join the crew</h3>
-        <p>
-          Help with programming, vibes, and operations. Light lift, high impact.
-        </p>
-      </article>
+    <div v-if="false">
+      <br />
+      <h2>Looking for more?</h2>
+      <div class="card-grid">
+        <article class="card">
+          <span class="pill">Events</span>
+          <h3>Host or co-host</h3>
+          <p>Run a workshop or sprint. We’ll help produce and promote it.</p>
+        </article>
 
-      <article class="card">
-        <span class="pill">Space</span>
-        <h3>Offer a venue</h3>
-        <p>
-          Have a studio, shop, or warehouse? Let’s use it for a pop-up lab
-          night.
-        </p>
-      </article>
+        <article class="card">
+          <span class="pill">Community</span>
+          <h3>Join the crew</h3>
+          <p>
+            Help with programming, vibes, and operations. Light lift, high
+            impact.
+          </p>
+        </article>
 
-      <article class="card highlight">
-        <h3>Just curious?</h3>
-        <p>Come hang. Meet people. Make something cool. You’re invited.</p>
-        <a class="cta inline" href="mailto:hello@lovelylittlelab.com">Say hi</a>
-      </article>
+        <article class="card">
+          <span class="pill">Space</span>
+          <h3>Offer a venue</h3>
+          <p>
+            Have a studio, shop, or warehouse? Let’s use it for a pop-up lab
+            night.
+          </p>
+        </article>
+
+        <article class="card highlight">
+          <h3>Just curious?</h3>
+          <p>Come hang. Meet people. Make something cool. You’re invited.</p>
+          <a class="cta inline" href="mailto:hello@lovelylittlelab.com"
+            >Say hi</a
+          >
+        </article>
+      </div>
     </div>
 
     <section class="future">
@@ -87,7 +94,6 @@ import { RouterLink } from 'vue-router';
         <div class="future-item">Shared Workshop Space / A Permanent Home</div>
         <div class="future-item">Tool & Equipment Donations</div>
         <div class="future-item">Workshop + Event Hosting</div>
-        <div class="future-item">Founding Members</div>
         <div class="future-item">Micro-grants + collaborative projects</div>
         <div class="future-item">Partnerships with local arts + tech orgs</div>
       </div>
@@ -96,10 +102,10 @@ import { RouterLink } from 'vue-router';
     <section class="cta">
       <div class="cta-card">
         <p class="eyebrow">Stay close</p>
-        <h2>Want updates as we grow?</h2>
+        <h2>Want updates?</h2>
         <p>
-          Get event announcements, studio news, and creative opportunities. Low
-          volume, high quality.
+          Get event announcements, and creative opportunities. Low volume, high
+          quality.
         </p>
         <div class="cta-actions">
           <RouterLink class="button primary" to="/#join"

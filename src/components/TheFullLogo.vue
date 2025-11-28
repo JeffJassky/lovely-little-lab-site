@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheLogo from './TheLogo.vue';
+import TheLogo from './TheGearLogo.vue';
 </script>
 
 <template>

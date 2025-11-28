@@ -100,8 +100,8 @@ onUnmounted(() => {
       <div class="hero-content reveal">
         <the-full-logo />
         <p class="hero-tagline">
-          a creative community for artists, engineers and makers<br />
-          <span class="invert">in st. petersburg, fl</span>
+          A creative community for people who enjoy making things<br />
+          <span class="invert">in St. Pete, FL</span>
         </p>
       </div>
     </header>
@@ -113,8 +113,9 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            bi-weekly creative nights where you can meet your people, stay
-            inspired, finish things, and explore new ideas.
+            Bi-weekly creative nights where you can show up with your idea,
+            project, or nothing at all. Meet great people, make progress on your
+            projects and have fun.
           </p>
           <div class="vibe-list">
             <span>Make friends.</span>
@@ -150,9 +151,9 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            LLL is a space for creative people to coexist, to experiment,
-            collaborate or work solo, and make progress on the things they care
-            about.
+            LLL is for creative and tech people to coexist, experiment, work on
+            stuff solo or collaboratively, and make progress on the things they
+            care about.
           </p>
           <p class="lead">
             It’s a home base for people who love making physical and digital

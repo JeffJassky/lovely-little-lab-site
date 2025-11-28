@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import TheLogo from './components/TheLogo.vue';
+import TheLogo from './components/TheGearLogo.vue';
 
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -114,7 +114,9 @@ onBeforeUnmount(() => {
           </RouterLink>
           <RouterLink to="/about" class="nav-link">About</RouterLink>
         </div>
-        <RouterLink to="/get-involved" class="cta-link">Join the Lab</RouterLink>
+        <RouterLink to="/get-involved" class="cta-link"
+          >Join the Lab</RouterLink
+        >
         <button
           type="button"
           class="menu-toggle"
