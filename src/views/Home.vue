@@ -4,17 +4,16 @@ import TheFullLogo from '../components/TheFullLogo.vue';
 import TheMarquee from '../components/TheMarquee.vue';
 
 const disciplines = [
-  'Art & Illustration',
   'Design & Craft',
+  'Ceramics',
+  'Art & Illustration',
   'Fashion & Jewelry',
   'Code & Creative Tech',
   'Robotics & Electronics',
   'Wood & Metal',
-  'Ceramics',
   'Photography & Film',
   'Music & Sound',
   'Animation & Games',
-  'Writing & Poetry',
   'UI/UX'
 ];
 

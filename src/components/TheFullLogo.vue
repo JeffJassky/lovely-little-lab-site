@@ -36,6 +36,7 @@ import TheLogo from './TheGearLogo.vue';
   top: -15%;
   left: 5cqw;
   z-index: 0;
+  pointer-events: auto;
   transition: width 0.4s ease, transform 0.4s ease;
 }
 
@@ -53,6 +54,7 @@ import TheLogo from './TheGearLogo.vue';
   position: relative;
   z-index: 1;
   transition: font-size 0.4s ease;
+  pointer-events: none;
 
   span {
     display: block;
