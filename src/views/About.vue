@@ -132,8 +132,9 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           </p>
           <p>
             As someone who's passionate about interdisciplinary thinking,
-            creative workflows and community I wanted to co-create space for
-            creative and technical to meet, work, innovate, and grow together.
+            creative workflows and community, I wanted to co-create space with
+            other creatives and technical people to meet, work, innovate, and
+            grow together.
           </p>
         </div>
       </article>

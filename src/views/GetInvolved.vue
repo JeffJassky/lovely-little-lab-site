@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import TheGearLogo from '../components/TheGearLogo.vue';
 </script>
 
 <template>
@@ -113,7 +114,9 @@ import { RouterLink } from 'vue-router';
           >
         </div>
       </div>
-      <div class="heart-mark" aria-hidden="true">&#9829;</div>
+      <div class="heart-mark" aria-hidden="true">
+        <TheGearLogo style="width: 40px; left: 50%; margin-left: -20px" />
+      </div>
     </section>
   </section>
 </template>
@@ -385,10 +388,9 @@ section.cta {
 }
 
 .heart-mark {
-  margin-top: 1.5rem;
-  font-size: 2rem;
-  color: var(--accent);
-  opacity: 0.8;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 720px) {

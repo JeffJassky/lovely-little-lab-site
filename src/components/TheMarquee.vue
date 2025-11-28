@@ -261,12 +261,15 @@ const blurStyle = computed(() => ({
   transition: all 0.8s ease;
 }
 
-.marquee span:hover {
+.marquee-container:hover .marquee span,
+.marquee-container:hover .marquee-blur span {
   color: #C8553D;
-  .separator {
-    -webkit-text-stroke: 2px #eee;
-    color: transparent;
-  }
+}
+
+.marquee-container:hover .separator {
+  -webkit-text-stroke: 2px #eee;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .marquee-blur {

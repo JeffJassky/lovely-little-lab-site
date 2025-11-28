@@ -114,8 +114,8 @@ onUnmounted(() => {
         <div class="manifesto-text">
           <p class="lead">
             Bi-weekly creative nights where you can show up with your idea,
-            project, or nothing at all. Meet great people, make progress on your
-            projects and have fun.
+            project, or nothing at all. Meet great people, get work done, get
+            inspired and have fun.
           </p>
           <div class="vibe-list">
             <span>Make friends.</span>
