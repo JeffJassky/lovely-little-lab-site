@@ -79,6 +79,8 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
 <style>
 
 html{
+	/* Set the base font size (1rem) to 14.75px */
+	/* Adjust this to scale everything simply */
 	font-size: 14.75px;
 }
 /* --- VARS & BASE --- */

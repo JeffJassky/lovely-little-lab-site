@@ -5,6 +5,8 @@ import About from "./views/About.vue";
 import Links from "./views/Links.vue";
 const PrintFlyerV1 = () => import("./views/print/flyers/FlyerV1.vue");
 const PrintPostcardV1 = () => import("./views/print/postcards/PostcardV1.vue");
+const PrintPostcardV1Vertical = () =>
+  import("./views/print/postcards/PostcardV1Vertical.vue");
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,6 +19,11 @@ const router = createRouter({
       path: "/print/8x10/flyer-v1",
       name: "print-flyer-v1",
       component: PrintFlyerV1,
+    },
+    {
+      path: "/print/4x6/postcard-v1-vertical",
+      name: "print-postcard-v1-vertical",
+      component: PrintPostcardV1Vertical,
     },
     {
       path: "/print/4x6/postcard-v1",

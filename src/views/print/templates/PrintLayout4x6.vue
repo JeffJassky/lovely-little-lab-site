@@ -1,21 +1,64 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, watch } from 'vue';
+
+type Orientation = 'landscape' | 'portrait';
+
+const props = withDefaults(
+  defineProps<{
+    orientation?: Orientation;
+  }>(),
+  { orientation: 'landscape' }
+);
 
 const STYLE_ID = 'print-page-4x6';
-const PAGE_RULE = '@page { size: 6in 4in; margin: 0; } body.print-mode { margin: 0; padding: 0; background: var(--bg, #f2f0e9); } body.print-mode .nav, body.print-mode .mobile-menu, body.print-mode .font-progress, body.print-mode .font-waiter { display: none !important; }';
 const BODY_CLASS = 'print-mode';
 
-onMounted(() => {
-  if (typeof document === 'undefined') return;
-  let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+const buildPageRule = (orientation: Orientation) =>
+  `@page { size: ${orientation === 'portrait' ? '4in 6in' : '6in 4in'}; margin: 0; } body.print-mode { margin: 0; padding: 0; background: var(--bg, #f2f0e9); } body.print-mode .nav, body.print-mode .mobile-menu, body.print-mode .font-progress, body.print-mode .font-waiter { display: none !important; }`;
+
+let styleEl: HTMLStyleElement | null = null;
+
+const ensureStyleEl = () => {
+  if (typeof document === 'undefined') return null;
+  if (!styleEl) {
+    styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+  }
   if (!styleEl) {
     styleEl = document.createElement('style');
     styleEl.id = STYLE_ID;
     document.head.appendChild(styleEl);
+  } else if (!styleEl.parentNode) {
+    document.head.appendChild(styleEl);
   }
-  styleEl.textContent = PAGE_RULE;
-  document.body.classList.add(BODY_CLASS);
+  return styleEl;
+};
+
+const applyPageRule = () => {
+  if (typeof document === 'undefined') return;
+  const el = ensureStyleEl();
+  if (el) {
+    el.textContent = buildPageRule(props.orientation);
+  }
+};
+
+const pageStyle = computed(() => ({
+  width: props.orientation === 'portrait' ? '4in' : '6in',
+  height: props.orientation === 'portrait' ? '6in' : '4in',
+}));
+
+onMounted(() => {
+  applyPageRule();
+  if (typeof document !== 'undefined') {
+    document.body.classList.add(BODY_CLASS);
+  }
 });
+
+watch(
+  () => props.orientation,
+  () => {
+    applyPageRule();
+  }
+);
 
 onUnmounted(() => {
   if (typeof document === 'undefined') return;
@@ -29,7 +72,7 @@ onUnmounted(() => {
 
 <template>
   <div class="print-preview">
-    <div class="print-page">
+    <div class="print-page" :style="pageStyle">
       <div class="print-safe">
         <slot />
       </div>
@@ -37,7 +80,10 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style>
+html {
+	font-size: 15px;
+}
 .print-preview {
   min-height: 100vh;
   display: flex;
@@ -65,7 +111,6 @@ onUnmounted(() => {
   content: '';
   position: absolute;
   inset: 0.28in;
-  border: 1px dashed rgba(17, 17, 17, 0.06);
   pointer-events: none;
 }
 
@@ -73,7 +118,7 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 0.45in;
+  padding: 0.125in;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
