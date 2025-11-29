@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
 
 const MOVEMENT_MAGNITUDE_PERCENT = 3; // tweak this to change how far shapes drift
 const OPPOSITE_RATIO = 0.8; // how much the arch counters the circle
@@ -24,6 +24,9 @@ const RETURN_SPEED_EPS = 30;
 const TILT_SMOOTHING = 0.1;
 const HINT_KEY = 'lll-gear-toy-hint';
 const FLOOR_MARGIN = 12;
+const HEART_FLIP_COOLDOWN_MS = 10000;
+const HEART_FLIP_DURATION_MS = 2400;
+const INITIAL_UPRIGHT_DURATION_MS = 2000;
 
 const offset = ref({ x: 0, y: 0 });
 const rotationDeg = ref(0);
@@ -40,6 +43,8 @@ const isReturning = ref(false);
 const archGlowing = ref(false);
 const hintVisible = ref(false);
 const hasShownHint = ref(false);
+const isHeartFlipping = ref(false);
+const showInitialUpright = ref(true);
 
 const gearWrapper = ref<HTMLDivElement | null>(null);
 const gearSvg = ref<SVGSVGElement | null>(null);
@@ -58,6 +63,9 @@ let snapFrame = 0;
 let lastPhysicsTime = 0;
 let resetTimer: number | undefined;
 let playStartedAt = 0;
+let heartFlipTimeout: number | undefined;
+let initialUprightTimer: number | undefined;
+let nextHeartFlipAllowedAt = 0;
 
 let homeGearRect: DOMRect | null = null;
 let wrapperRect: DOMRect | null = null;
@@ -166,6 +174,28 @@ const disableOrientation = () => {
   }
   targetTilt = { x: 0, y: 0 };
   tilt.value = { x: 0, y: 0 };
+};
+
+const triggerHeartFlip = () => {
+  if (isPhysicsActive.value || isHeartFlipping.value) return false;
+  showInitialUpright.value = false;
+  isHeartFlipping.value = true;
+  heartFlipTimeout = window.setTimeout(() => {
+    isHeartFlipping.value = false;
+    heartFlipTimeout = undefined;
+  }, HEART_FLIP_DURATION_MS);
+  return true;
+};
+
+const cancelHeartFlip = async () => {
+  if (heartFlipTimeout) {
+    window.clearTimeout(heartFlipTimeout);
+    heartFlipTimeout = undefined;
+  }
+  if (isHeartFlipping.value) {
+    isHeartFlipping.value = false;
+    await nextTick();
+  }
 };
 
 const scheduleReset = () => {
@@ -296,6 +326,8 @@ const handleGearTap = async () => {
   });
   if (isReturning.value) return;
 
+  await cancelHeartFlip();
+
   if (isPlaying.value) {
     physicsVel.value.y -= 160;
     physicsAngularVel.value += 90;
@@ -335,6 +367,20 @@ const handleTouchEnd = () => {
   const now = Date.now();
   if (isPhysicsActive.value && now - lastTap < 320) snapHome();
   lastTap = now;
+};
+
+const handleHoverEnter = () => {
+  if (isPhysicsActive.value) return;
+  const now = performance.now();
+  if (now < nextHeartFlipAllowedAt) return;
+  if (triggerHeartFlip()) {
+    nextHeartFlipAllowedAt = now + HEART_FLIP_COOLDOWN_MS;
+  }
+};
+
+const handleHoverLeave = () => {
+  if (isPhysicsActive.value) return;
+  // let the flip animation finish naturally
 };
 
 const handleMouseMove = (event: MouseEvent) => {
@@ -435,6 +481,9 @@ onMounted(() => {
   window.addEventListener('dblclick', handleDoubleClick);
   window.addEventListener('touchend', handleTouchEnd, { passive: true });
   window.addEventListener('click', windowClickDebug, true);
+  initialUprightTimer = window.setTimeout(() => {
+    showInitialUpright.value = false;
+  }, INITIAL_UPRIGHT_DURATION_MS);
 
   try {
     hasShownHint.value = window.localStorage.getItem(HINT_KEY) === 'seen';
@@ -461,6 +510,8 @@ onUnmounted(() => {
   stopPhysicsLoop();
   if (snapFrame) cancelAnimationFrame(snapFrame);
   if (resetTimer) window.clearTimeout(resetTimer);
+  if (heartFlipTimeout) window.clearTimeout(heartFlipTimeout);
+  if (initialUprightTimer) window.clearTimeout(initialUprightTimer);
 });
 
 const gearStyle = computed(() => {
@@ -492,7 +543,14 @@ const gearRotationStyle = computed(() => ({
 <template>
   <div
     class="logo-shapes"
-    :class="{ 'toy-active': isPlaying, 'toy-returning': isReturning }"
+    :class="{
+      'toy-active': isPlaying,
+      'toy-returning': isReturning,
+      'heart-flipping': isHeartFlipping,
+      'heart-initial': showInitialUpright
+    }"
+    @mouseenter="handleHoverEnter"
+    @mouseleave="handleHoverLeave"
     @click.capture="event => console.log('[gear-toy] root click', event.target)"
   >
     <div
@@ -539,6 +597,28 @@ const gearRotationStyle = computed(() => ({
   left: 0;
   pointer-events: auto;
   aspect-ratio: 1;
+  transform-origin: 50% 50%;
+  transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.logo-shapes.heart-flipping {
+  animation: heart-upright 2.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.logo-shapes.heart-initial {
+  transform: translateY(-20%) rotate(-45deg) scale(1.05);
+}
+
+.logo-shapes.toy-active,
+.logo-shapes.toy-returning {
+  animation: none;
+  transform: rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-shapes.heart-flipping {
+    animation: none;
+  }
 }
 
 .shape-wrapper {
@@ -550,7 +630,7 @@ const gearRotationStyle = computed(() => ({
 
 .shape {
   position: absolute;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .gear-wrapper {
@@ -576,7 +656,7 @@ const gearRotationStyle = computed(() => ({
   transform-origin: center;
   color: var(--gear-color, #C8553D);
   display: block;
-  opacity: 0.9;
+  opacity: 0.8;
   will-change: transform;
 }
 
@@ -628,6 +708,31 @@ const gearRotationStyle = computed(() => ({
 
 .arch--glow {
   box-shadow: 0 0 0 10px rgba(200, 85, 61, 0.16), 0 0 25px rgba(200, 85, 61, 0.28);
+}
+
+@keyframes heart-upright {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  18% {
+    transform: translateY(-5%) rotate(16deg) scale(1.02);
+  }
+  36% {
+    transform: translateY(-10%) rotate(-70deg) scale(1.05);
+  }
+  52%,
+  62% {
+    transform: translateY(-20%) rotate(-45deg) scale(1.05);
+  }
+  72% {
+    transform: translateY(-14%) rotate(-55deg) scale(1.03);
+  }
+  86% {
+    transform: translateY(-4%) rotate(6deg) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
 }
 
 @keyframes float {

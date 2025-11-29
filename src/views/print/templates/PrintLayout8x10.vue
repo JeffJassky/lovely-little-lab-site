@@ -65,7 +65,7 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 0.6in;
+  padding: 0.3in;
   display: flex;
   flex-direction: column;
   gap: 1rem;

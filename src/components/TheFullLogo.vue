@@ -32,9 +32,8 @@ import TheLogo from './TheGearLogo.vue';
 .logo-mark {
   position: absolute;
   /* 50cqw = 50% of the container’s inline width; no min/max so it can scale freely smaller or larger */
-  width: 42cqw;
+  width: 36cqw;
   top: -15%;
-  left: 5cqw;
   z-index: 0;
   pointer-events: auto;
   transition: width 0.4s ease, transform 0.4s ease;
@@ -46,9 +45,10 @@ import TheLogo from './TheGearLogo.vue';
   letter-spacing: 0.04em;
   transform-origin: center;
   /* 10cqw = 10% of the container’s inline width; mirrors mark scaling with no min/max caps */
-  font-size: 13cqw;
+  font-size: 10cqw;
   line-height: 0.85;
   text-transform: uppercase;
+  left: 6%;
   color: var(--ink, #111);
   margin: 0;
   position: relative;

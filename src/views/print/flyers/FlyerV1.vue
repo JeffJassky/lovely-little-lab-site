@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import PrintLayout8x10 from '../templates/PrintLayout8x10.vue';
+/* Ensure you are using a logo version that works well with the new color palette.
+   If the SVG has hardcoded black fills, you might need to update them to currentColor
+   so they inherit the new charcoal var(--ink-color). */
 import TheFullLogo from '../../../components/TheGearLogo.vue';
 </script>
 
@@ -7,8 +10,8 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   <PrintLayout8x10>
     <div class="flyer-container">
       <header class="header">
-        <TheFullLogo class="logo" />
-        <div class="location-badge">ST. PETE<br />FLORIDA</div>
+        <TheFullLogo class="logo" style="color: var(--ink-color);" />
+        <div class="location-badge">JOIN US IN ST. PETE</div>
       </header>
 
       <main class="grid-layout">
@@ -49,6 +52,11 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
             <span class="arrow">↓</span>
             LOCATION: BLACK CROW EAST
           </div>
+          <div class="disciplines">
+            Code / Ceramics / Glass / Robotics / Textiles / Game Dev /
+            Illustration / Wood / Metal / AI / Music / Photo / Film / UX /
+            Product / Industrial / Security / Rabbit Holes / Weird Obesessions
+          </div>
         </div>
       </main>
 
@@ -61,21 +69,26 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
           </div>
         </div>
         <div class="qr-placeholder">
-          <span>JOIN<br />US</span>
+          <img src="/qr-code-links.png" alt="QR Code" />
         </div>
       </footer>
     </div>
   </PrintLayout8x10>
 </template>
 
-<style scoped>
+<style>
+
+html{
+	font-size: 14.75px;
+}
 /* --- VARS & BASE --- */
 .flyer-container {
-  /* Using a warm off-white for paper feel, or you can go stark white */
-  --bg-color: #F4F1EA;
-  --ink-color: #111;
-  /* Rust color pulled from logo vibe */
-  --accent-color: #CD5D40;
+  /* Brighter off-white for a cleaner, modern feel */
+  --bg-color: #FAF9F6;
+  /* Softened from start black #111 to deep charcoal */
+  --ink-color: #333333;
+  /* Shifted rust towards a warmer, rosier terracotta */
+  --accent-color: #D97B66;
 
   width: 100%;
   height: 100%;
@@ -83,9 +96,12 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   color: var(--ink-color);
   display: flex;
   flex-direction: column;
-  border: 4px solid var(--ink-color);
+  /* Thinner borders (3px vs 4px) reduce heaviness */
+  border: 3px solid var(--ink-color);
+  /* Introducing subtle rounding to soften the overall shape */
+  border-radius: 12px;
   box-sizing: border-box;
-  overflow: hidden; /* Safety for print bleeds */
+  overflow: hidden;
 }
 
 /* --- HEADER --- */
@@ -93,12 +109,12 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1.5rem;
-  border-bottom: 4px solid var(--ink-color);
+  padding: 1em 1.5rem;
+  border-bottom: 3px solid var(--ink-color);
 }
 
 .logo {
-  width: .6in;
+  width: .4in;
 }
 
 .location-badge {
@@ -107,9 +123,13 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   text-align: right;
   line-height: 1.2;
   border: 2px solid var(--ink-color);
-  padding: 0.25rem 0.5rem;
-  box-shadow: 4px 4px 0 var(--ink-color);
-  transform: rotate(-2deg); /* Slight organic tilt */
+  padding: 0.25rem 0.6rem;
+  /* Replaced hard block shadow with a softer blur shadow */
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.08);
+  transform: rotate(2deg);
+  background: var(--bg-color);
+  /* Rounded corners on the badge */
+  border-radius: 6px;
 }
 
 /* --- MAIN GRID --- */
@@ -121,36 +141,36 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
 
 /* --- HERO TYPOGRAPHY --- */
 .hero-section {
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
 }
 
 .headline {
   font-family: var(--font-display, 'Syne', sans-serif);
-  font-weight: 800; /* Assuming bold weight is available */
-  font-size: 5.5cqw; /* Container query units relative to print size */
-  /* Fallback size if container queries fail in print context */
+  /* Reduced weight from 800/900 to 700 for less aggression */
+  font-weight: 700;
+  font-size: 6.7rem;
   line-height: 0.85;
   text-transform: uppercase;
   margin: 0;
   display: flex;
   flex-direction: column;
+  -webkit-text-stroke: .02em currentColor;
 }
 
 .line {
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em; /* Slightly opened up tracking */
 }
 
-/* Indenting "MAKERS" creates visual rhythm */
 .indent {
-  color: var(--accent-color); /* Pop of color */
+  color: var(--accent-color);
 }
 
 /* --- SPECS ROW --- */
 .specs-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  border-top: 4px solid var(--ink-color);
-  border-bottom: 4px solid var(--ink-color);
+  border-top: 3px solid var(--ink-color);
+  border-bottom: 3px solid var(--ink-color);
 }
 
 .spec-block {
@@ -171,12 +191,14 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   font-size: 0.7rem;
   opacity: 0.7;
   margin-bottom: 0.25rem;
+  letter-spacing: 0.05em;
 }
 
 .value {
   margin: 0;
   font-family: var(--font-display, 'Syne', sans-serif);
-  font-weight: 700;
+  /* Paired down weight here too */
+  font-weight: 600;
   font-size: 1.1rem;
   line-height: 1;
   text-transform: uppercase;
@@ -192,16 +214,25 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
 
 .statement {
   font-family: var(--font-body, 'Space Grotesk', sans-serif);
-  font-size: 1.5rem;
-  line-height: 1.2;
+  font-size: 1.75rem;
+  line-height: 1.3; /* Slightly looser leading for breathability */
   margin: 0;
   max-width: 28ch;
 }
 
+/* Adjusted highlight color to match new accent */
 .highlight {
   font-weight: 700;
-  background: linear-gradient(120deg, rgba(205, 93, 64, 0.2) 0%, rgba(205, 93, 64, 0.2) 100%);
-  box-shadow: inset 0 -0.4em 0 rgba(205, 93, 64, 0.2);
+  background: linear-gradient(120deg, rgba(217, 123, 102, 0.25) 0%, rgba(217, 123, 102, 0.25) 100%);
+  box-shadow: inset 0 -0.4em 0 rgba(217, 123, 102, 0.25);
+}
+
+.sub-statement {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  line-height: 1.4;
+  opacity: 0.85;
+  margin: 0;
 }
 
 .venue-block {
@@ -210,16 +241,24 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-top: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.disciplines{
+	font-family: var(--font-mono, 'Space Grotesk', sans-serif);
+	text-transform: capitalize;
+	font-size: 0.7rem;
 }
 
 /* --- FOOTER --- */
 .footer {
-  margin-top: auto; /* Push to bottom */
+  margin-top: auto;
   background-color: var(--ink-color);
   color: var(--bg-color);
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -227,7 +266,8 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
 
 .cta-text h2 {
   font-family: var(--font-display, 'Syne', sans-serif);
-  font-size: 2.5rem;
+  font-size: 2.2rem; /* Slightly smaller */
+  font-weight: 700;
   margin: 0 0 0.25rem 0;
   line-height: 1;
   text-transform: uppercase;
@@ -237,8 +277,9 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
   font-family: var(--font-mono, 'Space Mono', monospace);
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.9;
+  letter-spacing: 0.03em;
 }
 
 .handle-at {
@@ -249,18 +290,26 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
 .qr-placeholder {
   background-color: var(--bg-color);
   color: var(--ink-color);
-  width: 4rem;
-  height: 4rem;
+  width: 6rem;
+  aspect-ratio: 1 / 1;
   display: grid;
   place-content: center;
   font-family: var(--font-mono, 'Space Mono', monospace);
   font-weight: bold;
   font-size: 0.7rem;
   text-align: center;
-  border: 2px dashed var(--ink-color); /* Dashed implies "Paste sticker here" */
+  /* Switched from dashed to solid, added rounding */
+  border: 2px solid var(--ink-color);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 4px;
 }
 
-/* --- PRINT OPTIMIZATIONS --- */
+.qr-placeholder img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
 @media print {
   .flyer-container {
     -webkit-print-color-adjust: exact;
