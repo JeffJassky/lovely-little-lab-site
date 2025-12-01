@@ -9,7 +9,7 @@ import TheGearLogo from '../components/TheGearLogo.vue';
       <p class="eyebrow">Get Involved</p>
       <h1>Become a labmate.</h1>
       <p class="lede">
-        LLL is great because creative, curious people like you show up and make
+        LL is great because creative, curious people like you show up and make
         it that way.
       </p>
     </header>
@@ -297,6 +297,7 @@ a.cta {
 }
 
 .future {
+	display: none;
   margin-top: 4rem;
   background: #111;
   color: var(--bg);

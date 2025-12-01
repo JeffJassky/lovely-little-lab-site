@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
           style="display: flex; align-items: center; gap: 0.5em;"
         >
           <TheLogo style="width: 20px" />
-          LLL_ST.PETE
+          LL_ST.PETE
         </RouterLink>
         <div class="nav-menu">
           <RouterLink to="/#events" class="nav-link">Events</RouterLink>

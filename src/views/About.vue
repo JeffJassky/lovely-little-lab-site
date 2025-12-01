@@ -9,12 +9,12 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
       <div class="hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">About</p>
-          <h1>Lovely Little Lab</h1>
+          <h1>Lovely Lab</h1>
           <p class="lede">
-            Lovely Little Lab is a volunteer-run creative group in St.
-            Petersburg, Florida that comes together to connect, share ideas, and
-            make progress things we care about. Just people sharing space to
-            make things.
+            Lovely Lab is a volunteer-run creative group in St. Petersburg,
+            Florida that comes together to connect, share ideas, and make
+            progress things we care about. Just people sharing space to make
+            things.
           </p>
           <div class="pill-row">
             <span class="pill">St. Petersburg, FL</span>
@@ -23,7 +23,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           </div>
         </div>
         <aside class="origin-card">
-          <p class="label">Why LLL exists</p>
+          <p class="label">Why LL exists</p>
           <h3>A space for art + tech to intersect.</h3>
           <p>
             St. Pete is full of creative energy - but it can be hard to find a
@@ -62,7 +62,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           <p class="muted">
             Long-term, the goal is to register as a 501c3 non-profit and grow
             into a permanent shared community workshop and makerspace — but for
-            now, Lovely Little Lab is wherever we gather.
+            now, Lovely Lab is wherever we gather.
           </p>
         </article>
       </div>
@@ -150,7 +150,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           follow us on Instagram.
         </p>
         <p>
-          Lovely Little Lab is growing in real time — slowly, intentionally, and
+          Lovely Lab is growing in real time — slowly, intentionally, and
           collaboratively.
         </p>
         <div class="cta-row">

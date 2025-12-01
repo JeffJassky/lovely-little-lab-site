@@ -108,17 +108,17 @@ onUnmounted(() => {
     <section id="vibe" class="manifesto reveal">
       <div class="grid-layout">
         <div class="manifesto-header">
-          <h2>WHAT'S LLL?</h2>
+          <h2>WHAT'S LL?</h2>
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            Bi-weekly creative nights where you can show up with your idea,
-            project, or nothing at all. Meet great people, get work done, get
-            inspired and have fun.
+            Bi-weekly creative nights where you can show up with your project,
+            an idea, or nothing at all. Meet great people, work on your stuff,
+            and stay inspired.
           </p>
           <div class="vibe-list">
             <span>Make friends.</span>
-            <span>Get shi* done.</span>
+            <span>Make stuff.</span>
             <span>Stay inspired.</span>
           </div>
         </div>
@@ -146,13 +146,13 @@ onUnmounted(() => {
     <section id="vibe" class="manifesto reveal">
       <div class="grid-layout">
         <div class="manifesto-header">
-          <h2>WHY'S LLL EXIST?</h2>
+          <h2>WHY'S LL EXIST?</h2>
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            LLL is for creative and tech people to coexist, experiment, work on
-            stuff solo or collaboratively, and make progress on the things they
-            care about.
+            LL is for makers, artists and tech people to coexist, experiment,
+            work on stuff solo or collaboratively, and make progress on the
+            things they care about.
           </p>
           <p class="lead">
             It’s a home base for people who love making physical and digital
@@ -205,7 +205,7 @@ onUnmounted(() => {
         </form>
 
         <div class="footer-meta">
-          <span>© LOVELY LITTLE LAB</span>
+          <span>© LOVELY LAB</span>
           <span>EST. 2024</span>
         </div>
       </div>

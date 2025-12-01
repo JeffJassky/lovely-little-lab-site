@@ -8,8 +8,7 @@ import TheLogo from './TheGearLogo.vue';
       <TheLogo class="logo-mark" />
       <h1 class="logo-text">
         <span class="block">LOVELY</span>
-        <span class="block indent">LITTLE</span>
-        <span class="block center">LAB</span>
+        <span class="block indent">LAB</span>
       </h1>
     </div>
   </div>
@@ -22,18 +21,17 @@ import TheLogo from './TheGearLogo.vue';
 .the-full-logo {
   position: relative;
   width: 100%;
-  display: inline-block;
+  display: flex;
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
   container-type: inline-size;
 }
 
 .logo-mark {
   position: absolute;
   /* 50cqw = 50% of the container’s inline width; no min/max so it can scale freely smaller or larger */
-  width: 36cqw;
-  top: -15%;
+  width: 30cqw;
+  top: -7%;
   z-index: 0;
   pointer-events: auto;
   transition: width 0.4s ease, transform 0.4s ease;
@@ -48,23 +46,23 @@ import TheLogo from './TheGearLogo.vue';
   font-size: 10cqw;
   line-height: 0.85;
   text-transform: uppercase;
-  left: 6%;
   color: var(--ink, #111);
   margin: 0;
   position: relative;
   z-index: 1;
   transition: font-size 0.4s ease;
   pointer-events: none;
-
+  text-align: center;
+  left: 23%;
   span {
-    display: block;
-    &.indent {
-      margin-left: 1.5ch;
+      margin-left: 0ch;
+      display: block;
       color: transparent;
       -webkit-text-stroke: 2px var(--ink, #111);
-    }
-    &.center {
-      text-align: center;
+	  font-size: 1.25em;
+    &.indent {
+	  font-size: 2em;
+      color: var(--ink);
     }
   }
 }

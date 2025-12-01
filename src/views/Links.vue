@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router';
 
 const links = [
   { label: 'Upcoming Events', href: '/#events', type: 'router' },
-  { label: 'About LLL', href: '/about', type: 'router' },
+  { label: 'About LL', href: '/about', type: 'router' },
   { label: 'Follow @LovelyLittleLab', href: 'https://www.instagram.com/lovelylittlelab/', type: 'external' }
 ];
 </script>
