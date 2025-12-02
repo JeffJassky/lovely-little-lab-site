@@ -114,9 +114,7 @@ onBeforeUnmount(() => {
           </RouterLink>
           <RouterLink to="/about" class="nav-link">About</RouterLink>
         </div>
-        <RouterLink to="/get-involved" class="cta-link"
-          >Join the Lab</RouterLink
-        >
+        <RouterLink to="/#join" class="cta-link">Join the Lab</RouterLink>
         <button
           type="button"
           class="menu-toggle"

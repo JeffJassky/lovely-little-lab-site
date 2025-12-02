@@ -177,7 +177,9 @@ onUnmounted(() => {
           >
             <div class="ml-form-align-center ">
               <div class="ml-form-embedWrapper embedForm">
-                <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+                <div
+                  class="ml-form-embedBody ml-form-embedBodyDefault row-form"
+                >
                   <div
                     class="ml-form-embedContent"
                     style="margin-bottom: 0px; "
@@ -213,7 +215,9 @@ onUnmounted(() => {
                     <input type="hidden" name="ml-submit" value="1" />
 
                     <div class="ml-form-embedSubmit">
-                      <button type="submit" class="primary">Subscribe</button>
+                      <button type="submit" class="primary">
+                        Join the List
+                      </button>
 
                       <button
                         disabled="true"
@@ -237,7 +241,9 @@ onUnmounted(() => {
                   <div class="ml-form-successContent">
                     <h4>Thank you!</h4>
 
-                    <p>You have successfully joined our subscriber list.</p>
+                    <p>
+                      You've joined the list. We'll email you with info soon.
+                    </p>
                   </div>
                 </div>
               </div>
