@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import TheFullLogo from '../components/TheFullLogo.vue';
 import TheMarquee from '../components/TheMarquee.vue';
+import GoogleMap from '../components/GoogleMap.vue';
 
 const disciplines = [
   'Design & Craft',
@@ -146,7 +147,7 @@ onUnmounted(() => {
       <div class="flex-layout">
         <div class="logistics-visual">
           <div class="map-graphic">
-            <div class="pin"></div>
+            <GoogleMap />
             <div class="radar"></div>
           </div>
         </div>
@@ -451,34 +452,42 @@ onUnmounted(() => {
   height: 40vh;
   border: 4px solid #111;
   position: relative;
-  background: linear-gradient(#111 1px, transparent 1px),
-    linear-gradient(90deg, #111 1px, transparent 1px);
-  background-size: 50px 50px;
   background-color: #F4F1E8;
-  background-position: center;
   aspect-ratio: 5 / 6;
   opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 1em 1em 0 #d7d4cb;
+  overflow: hidden;
 }
 
-.pin {
-  width: 20px;
-  height: 20px;
-  background: #C8553D;
-  border-radius: 50%;
+.map-graphic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#111 1px, transparent 1px),
+    linear-gradient(90deg, #111 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center;
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
   z-index: 2;
 }
 
 .radar {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 20px;
   height: 20px;
   border: 1px solid #C8553D;
   border-radius: 50%;
   animation: radar 2s infinite;
+  z-index: 3;
+  pointer-events: none;
 }
 
 @keyframes radar {
