@@ -29,7 +29,7 @@ import TheGearLogo from '../components/TheGearLogo.vue';
           <span class="pill">Share</span>
           <h3>Share your work</h3>
           <p>
-            Bring a WIP, moodboard, robot, poem, idea, or weird obsession. You
+            Bring a WIP, moodboard, robot, craft, idea, or weird obsession. You
             never have to present - just sharing the space is enough.
           </p>
         </article>

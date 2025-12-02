@@ -113,6 +113,7 @@ onBeforeUnmount(() => {
             Get Involved
           </RouterLink>
           <RouterLink to="/about" class="nav-link">About</RouterLink>
+          <RouterLink to="/contact" class="nav-link">Contact</RouterLink>
         </div>
         <div class="nav-actions">
           <div class="social-icons">
@@ -190,6 +191,9 @@ onBeforeUnmount(() => {
           </RouterLink>
           <RouterLink to="/about" class="nav-link" @click="closeMenu">
             About
+          </RouterLink>
+          <RouterLink to="/contact" class="nav-link" @click="closeMenu">
+            Contact
           </RouterLink>
           <div class="mobile-social">
             <a

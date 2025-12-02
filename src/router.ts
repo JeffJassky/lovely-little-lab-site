@@ -4,6 +4,7 @@ import GetInvolved from "./views/GetInvolved.vue";
 import About from "./views/About.vue";
 import Links from "./views/Links.vue";
 import Print from "./views/Print.vue";
+import Contact from "./views/Contact.vue";
 const PrintFlyerV1 = () => import("./views/print/flyers/FlyerV1.vue");
 const PrintPostcardV1 = () => import("./views/print/postcards/PostcardV1.vue");
 const PrintPostcardV1Vertical = () =>
@@ -15,6 +16,7 @@ const router = createRouter({
     { path: "/", name: "home", component: Home },
     { path: "/about", name: "about", component: About },
     { path: "/get-involved", name: "get-involved", component: GetInvolved },
+    { path: "/contact", name: "contact", component: Contact },
     { path: "/links", name: "links", component: Links },
     { path: "/print", name: "print", component: Print },
     {
