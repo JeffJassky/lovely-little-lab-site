@@ -129,9 +129,9 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            LL is for makers, artists, designers and engineers to coexist, work
-            on stuff solo or collaboratively, and make progress on the things
-            they care about.
+            LL is for makers, craftspeople, designers, artists and engineers to
+            coexist, work on stuff solo or collaboratively, and make progress on
+            the things they care about.
           </p>
           <p class="lead">
             It’s a home base for people who love making physical and digital

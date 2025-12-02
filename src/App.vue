@@ -114,7 +114,39 @@ onBeforeUnmount(() => {
           </RouterLink>
           <RouterLink to="/about" class="nav-link">About</RouterLink>
         </div>
-        <RouterLink to="/#join" class="cta-link">Join the Lab</RouterLink>
+        <div class="nav-actions">
+          <div class="social-icons">
+            <a
+              class="social-icon"
+              href="http://instagram.com/lovelylabstpete"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow Lovely Lab on Instagram"
+              v-tooltip="`Follow @LovelyLabStPete`"
+            >
+              <img src="/instagram-glyph-seeklogo.svg" alt="" />
+            </a>
+            <a
+              v-if="false"
+              class="social-icon social-icon--facebook"
+              href="https://www.facebook.com/people/Lovely-Lab-St-Pete-Makers/61584700285261/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow Lovely Lab on Facebook"
+            >
+              <img src="/2023_Facebook_icon.svg" alt="" />
+            </a>
+            <a
+              class="social-icon social-icon--meetup"
+              href="https://www.meetup.com/lovely-lab"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Join the Lovely Lab meetup"
+              v-tooltip="`Join us on Meetup`"
+            ></a>
+          </div>
+          <RouterLink to="/#join" class="cta-link">Join the Lab</RouterLink>
+        </div>
         <button
           type="button"
           class="menu-toggle"
@@ -159,6 +191,36 @@ onBeforeUnmount(() => {
           <RouterLink to="/about" class="nav-link" @click="closeMenu">
             About
           </RouterLink>
+          <div class="mobile-social">
+            <a
+              class="social-icon"
+              href="http://instagram.com/lovelylabstpete"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow Lovely Lab on Instagram"
+              v-tooltip="`Follow @LovelyLabStPete`"
+            >
+              <img src="/instagram-glyph-seeklogo.svg" alt="" />
+            </a>
+            <a
+              v-if="false"
+              class="social-icon social-icon--facebook"
+              href="https://www.facebook.com/people/Lovely-Lab-St-Pete-Makers/61584700285261/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow Lovely Lab on Facebook"
+            >
+              <img src="/2023_Facebook_icon.svg" alt="" />
+            </a>
+            <a
+              class="social-icon social-icon--meetup"
+              href="https://www.meetup.com/lovely-lab"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Join the Lovely Lab meetup"
+              v-tooltip="`Join us on Meetup`"
+            ></a>
+          </div>
         </div>
       </div>
 
@@ -290,6 +352,55 @@ onBeforeUnmount(() => {
   align-items: center;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  width: auto;
+  color: var(--ink);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.85;
+}
+
+.social-icon:hover {
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+.social-icon img {
+  height: 1.5rem;
+  width: auto;
+  display: block;
+}
+
+.social-icon--meetup {
+  height: 1.5rem;
+  width: auto;
+  aspect-ratio: 125 / 34;
+  background-color: currentColor;
+  mask-image: url('/meetup-seeklogo.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('/meetup-seeklogo.svg');
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
 .nav-link {
   color: var(--ink);
   text-decoration: none;
@@ -411,6 +522,7 @@ onBeforeUnmount(() => {
   text-align: center;
   font-family: var(--font-mono, monospace);
   font-weight: 700;
+  min-height: calc(100vh - 8rem);
 }
 
 .mobile-menu .nav-link {
@@ -438,6 +550,18 @@ onBeforeUnmount(() => {
   border-color: var(--accent);
 }
 
+.mobile-social {
+  margin-top: auto;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.v-popper--theme-tooltip .v-popper__inner {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+}
+
 @media (min-width: 901px) {
   .menu-toggle,
   .mobile-menu {
@@ -458,7 +582,7 @@ onBeforeUnmount(() => {
     display: none;
   }
 
-  .cta-link {
+  .nav-actions {
     display: none;
   }
 
