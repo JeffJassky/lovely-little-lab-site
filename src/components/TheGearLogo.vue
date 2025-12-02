@@ -27,6 +27,7 @@ const FLOOR_MARGIN = 12;
 const HEART_FLIP_COOLDOWN_MS = 10000;
 const HEART_FLIP_DURATION_MS = 2400;
 const INITIAL_UPRIGHT_DURATION_MS = 2000;
+const INITIAL_SETTLE_DURATION_MS = 900;
 
 const offset = ref({ x: 0, y: 0 });
 const rotationDeg = ref(0);
@@ -45,6 +46,7 @@ const hintVisible = ref(false);
 const hasShownHint = ref(false);
 const isHeartFlipping = ref(false);
 const showInitialUpright = ref(true);
+const isHoverLocked = ref(true);
 
 const gearWrapper = ref<HTMLDivElement | null>(null);
 const gearSvg = ref<SVGSVGElement | null>(null);
@@ -65,6 +67,7 @@ let resetTimer: number | undefined;
 let playStartedAt = 0;
 let heartFlipTimeout: number | undefined;
 let initialUprightTimer: number | undefined;
+let hoverUnlockTimer: number | undefined;
 let nextHeartFlipAllowedAt = 0;
 
 let homeGearRect: DOMRect | null = null;
@@ -370,7 +373,7 @@ const handleTouchEnd = () => {
 };
 
 const handleHoverEnter = () => {
-  if (isPhysicsActive.value) return;
+  if (isPhysicsActive.value || isHoverLocked.value) return;
   const now = performance.now();
   if (now < nextHeartFlipAllowedAt) return;
   if (triggerHeartFlip()) {
@@ -484,6 +487,9 @@ onMounted(() => {
   initialUprightTimer = window.setTimeout(() => {
     showInitialUpright.value = false;
   }, INITIAL_UPRIGHT_DURATION_MS);
+  hoverUnlockTimer = window.setTimeout(() => {
+    isHoverLocked.value = false;
+  }, INITIAL_UPRIGHT_DURATION_MS + INITIAL_SETTLE_DURATION_MS);
 
   try {
     hasShownHint.value = window.localStorage.getItem(HINT_KEY) === 'seen';
@@ -512,6 +518,7 @@ onUnmounted(() => {
   if (resetTimer) window.clearTimeout(resetTimer);
   if (heartFlipTimeout) window.clearTimeout(heartFlipTimeout);
   if (initialUprightTimer) window.clearTimeout(initialUprightTimer);
+  if (hoverUnlockTimer) window.clearTimeout(hoverUnlockTimer);
 });
 
 const gearStyle = computed(() => {

@@ -27,18 +27,18 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
         <div class="specs-container">
           <div class="spec-item">
             <span class="label">WHEN</span>
-            <div class="value">1ST & 3RD THURS</div>
+            <div class="value">Tuesdays</div>
             <div class="value">6:00PM - 9:00PM</div>
           </div>
           <div class="spec-item">
             <span class="label">WHERE</span>
-            <div class="value">BLACK CROW EAST</div>
+            <div class="value">TBD</div>
           </div>
         </div>
 
         <div class="body-copy">
           <p class="statement">
-            Bi-weekly social make nights <BR />for
+            Weekly social make nights <BR />for
             <span class="highlight">people who make stuff</span>.
           </p>
           <p class="sub-statement">

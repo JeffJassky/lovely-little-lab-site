@@ -30,7 +30,7 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
           </div>
           <div class="spec-block">
             <span class="label">SCHEDULE</span>
-            <p class="value">1ST & 3RD THURS</p>
+            <p class="value">Tuesdays</p>
           </div>
           <div class="spec-block">
             <span class="label">TIME</span>
@@ -40,7 +40,7 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
 
         <div class="body-copy">
           <p class="statement">
-            Bi-weekly creative nights for
+            Weekly creative nights for
             <span class="highlight">artists, makers, coders and engineers</span
             >. Show up with your idea, project, or nothing at all.
           </p>

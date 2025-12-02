@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import { RouterLink } from 'vue-router';
 import TheFullLogo from '../components/TheFullLogo.vue';
 import TheMarquee from '../components/TheMarquee.vue';
 
@@ -20,56 +21,34 @@ const disciplines = [
 
 const categories = [
   {
-    title: 'SHARE',
-    subtitle: 'Creative Expression',
-    events: [
-      { name: 'Show & Tell Salon', desc: 'Works in progress. No polish required.' },
-      { name: 'Process Night', desc: 'How you make what you make.' },
-      { name: 'Inspo Share', desc: 'Moodboards, obsessions, and rabbit holes.' }
-    ]
-  },
-  {
     title: 'MAKE',
     subtitle: 'Build Solo or Together',
     events: [
-      { name: 'Body Doubling', desc: 'Co-working night. Get shit done.' },
-      { name: '3-Hour Sprint', desc: 'High intensity creative jam.' },
-      { name: 'Micro-Hackathon', desc: 'Open to all mediums, not just code.' }
+      { name: 'Co-working Nights', desc: 'Get shit done in a shared space.' },
+      { name: '3-Hour Sprint', desc: 'High intensity work jam.' },
+      { name: 'Hackathons', desc: 'Open to all mediums, not just code.' }
     ]
   },
   {
-    title: 'THINK',
-    subtitle: 'Explore & Learn',
+    title: 'SHARE',
+    subtitle: 'Creative Expression',
     events: [
-      { name: 'The Idea Lab', desc: 'Concept jam and brainstorming.' },
-      { name: 'Mind Meld', desc: 'Artists + Engineers collision.' },
-      { name: 'Design + Emotion', desc: 'Roundtable discussions.' }
+      { name: 'Work Share Night', desc: 'Share completed projects or WIPs. No polish required.' },
+      { name: 'Process Night', desc: 'Share how you make your stuff.' },
+      { name: 'Inspiration Night', desc: 'Moodboards, obsessions, and rabbit holes.' }
     ]
   },
   {
     title: 'CONNECT',
-    subtitle: 'Find your Tribe',
+    subtitle: 'Explore & Learn',
     events: [
-      { name: 'Social Hour', desc: 'Creative mixer.' },
-      { name: 'Speed Friending', desc: 'Surprisingly effective.' },
-      { name: 'Art Walk', desc: 'Field trips to galleries & museums.' }
+      { name: 'Workshops', desc: 'Teach your stuff. Learn from others.' },
+      { name: 'Creative Tech Nite', desc: 'Art with code + electronics' }
     ]
   }
 ];
 
-const email = ref('');
-const subscribed = ref(false);
 const observer = ref<IntersectionObserver | null>(null);
-
-const handleSubscribe = () => {
-  if (email.value) {
-    subscribed.value = true;
-    setTimeout(() => {
-      email.value = '';
-      subscribed.value = false;
-    }, 3000);
-  }
-};
 
 onMounted(() => {
   observer.value = new IntersectionObserver(
@@ -99,7 +78,7 @@ onUnmounted(() => {
       <div class="hero-content reveal">
         <the-full-logo />
         <p class="hero-tagline">
-          A creative community for people who enjoy making things<br />
+          Weekly creative nights for people who make things<br />
           <span class="invert">in St. Pete, FL</span>
         </p>
       </div>
@@ -112,13 +91,13 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            Bi-weekly creative nights where you can show up with your project,
-            an idea, or nothing at all. Meet great people, work on your stuff,
-            and stay inspired.
+            Weekly creative nights where you can show up with your project, an
+            idea, or nothing at all. Meet great people, work on your stuff and
+            stay inspired.
           </p>
           <div class="vibe-list">
-            <span>Make friends.</span>
             <span>Make stuff.</span>
+            <span>Make friends.</span>
             <span>Stay inspired.</span>
           </div>
         </div>
@@ -128,7 +107,7 @@ onUnmounted(() => {
     <the-marquee :items="disciplines" />
 
     <section id="events" class="program reveal">
-      <div class="section-label">UPCOMING EVENTS</div>
+      <div class="section-label">EVENT CONCEPTS (TBD)</div>
       <div class="program-grid">
         <div v-for="cat in categories" :key="cat.title" class="category-card">
           <h3 class="cat-title">{{ cat.title }}</h3>
@@ -150,14 +129,14 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            LL is for makers, artists and tech people to coexist, experiment,
-            work on stuff solo or collaboratively, and make progress on the
-            things they care about.
+            LL is for makers, artists, designers and engineers to coexist, work
+            on stuff solo or collaboratively, and make progress on the things
+            they care about.
           </p>
           <p class="lead">
             It’s a home base for people who love making physical and digital
-            things and want a space where inspiration, energy, and interesting
-            people are always in the room.
+            things and want a space where inspiration and good energy are always
+            in the room.
           </p>
         </div>
       </div>
@@ -175,12 +154,12 @@ onUnmounted(() => {
           <div class="info-block">
             <span class="label">WHERE</span>
             <h4>St. Petersburg, FL</h4>
-            <p>The Sunshine City</p>
+            <p>Location TBD</p>
           </div>
           <div class="info-block">
             <span class="label">WHEN</span>
-            <h4>Bi-Weekly Meetups</h4>
-            <p>1st & 3rd Thursday each month, 6-9pm</p>
+            <h4>Tuedays Nights</h4>
+            <p>Every Tuesday - 6:00 - 9:00pm</p>
           </div>
         </div>
       </div>
@@ -189,24 +168,87 @@ onUnmounted(() => {
     <footer id="join" class="footer reveal">
       <div class="footer-content">
         <h2>PULL UP A CHAIR.</h2>
-        <p>Join the mailing list for event dates and location drops.</p>
+        <p>Join the mailing list for event dates and location details.</p>
 
-        <form @submit.prevent="handleSubscribe" class="signup-form">
-          <input
-            v-model="email"
-            type="email"
-            placeholder="YOUR@EMAIL.COM"
-            required
-            :disabled="subscribed"
-          />
-          <button type="submit" :class="{ success: subscribed }">
-            {{ subscribed ? 'WELCOME' : 'SUBSCRIBE' }}
-          </button>
-        </form>
+        <div class="signup-shell">
+          <div
+            id="mlb2-34140237"
+            class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-34140237"
+          >
+            <div class="ml-form-align-center ">
+              <div class="ml-form-embedWrapper embedForm">
+                <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+                  <div
+                    class="ml-form-embedContent"
+                    style="margin-bottom: 0px; "
+                  ></div>
+
+                  <form
+                    class="ml-block-form signup-form"
+                    action="https://assets.mailerlite.com/jsonp/449716/forms/172703619663005083/subscribe"
+                    data-code=""
+                    method="post"
+                    target="_blank"
+                  >
+                    <div class="ml-form-formContent">
+                      <div class="ml-form-fieldRow ml-last-item">
+                        <div
+                          class="ml-field-group ml-field-email ml-validate-email ml-validate-required"
+                        >
+                          <!-- input -->
+                          <input
+                            aria-label="email"
+                            aria-required="true"
+                            type="email"
+                            class="form-control"
+                            data-inputmask=""
+                            name="fields[email]"
+                            placeholder="you@email.com"
+                            autocomplete="email"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <input type="hidden" name="ml-submit" value="1" />
+
+                    <div class="ml-form-embedSubmit">
+                      <button type="submit" class="primary">Subscribe</button>
+
+                      <button
+                        disabled="true"
+                        style="display: none;"
+                        type="button"
+                        class="loading"
+                      >
+                        <div class="ml-form-embedSubmitLoad"></div>
+                        <span class="sr-only">Loading...</span>
+                      </button>
+                    </div>
+
+                    <input type="hidden" name="anticsrf" value="true" />
+                  </form>
+                </div>
+
+                <div
+                  class="ml-form-successBody row-success"
+                  style="display: none"
+                >
+                  <div class="ml-form-successContent">
+                    <h4>Thank you!</h4>
+
+                    <p>You have successfully joined our subscriber list.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="footer-meta">
           <span>© LOVELY LAB</span>
-          <span>EST. 2024</span>
+          <RouterLink to="/print" class="footer-link">PRINTS</RouterLink>
+          <span>EST. 2025</span>
         </div>
       </div>
     </footer>
@@ -493,18 +535,36 @@ onUnmounted(() => {
   font-family: var(--font-mono, monospace);
 }
 
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 500px;
+.signup-shell {
+  max-width: 600px;
   margin: 0 auto 4rem;
 }
 
-@media (min-width: 600px) {
-  .signup-form {
-    flex-direction: row;
-  }
+.signup-shell .ml-form-embedContainer {
+  width: 100%;
+  max-width: 100% !important;
+}
+
+.signup-shell .ml-form-embedWrapper {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none;
+  width: 100%;
+  max-width: 100% !important;
+  display: block !important;
+}
+
+.signup-shell .ml-form-embedBody,
+.signup-shell .ml-form-successBody {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  background: transparent !important;
+}
+
+.signup-shell .ml-form-embedContent {
+  display: none;
 }
 
 @media (min-width: 900px) {
@@ -514,51 +574,156 @@ onUnmounted(() => {
   }
 }
 
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+.signup-form .ml-form-formContent {
+  flex: 1;
+  margin: 0;
+  align-items: stretch;
+}
+
+.signup-form .ml-form-fieldRow,
+.signup-form .ml-field-group {
+  margin: 0;
+  width: 100%;
+}
+
+.signup-form .ml-form-embedSubmit {
+  display: flex;
+  align-items: stretch;
+  width: auto !important;
+  margin: 0 !important;
+  float: none !important;
+}
+
+.signup-form .ml-form-embedSubmit button {
+  height: 100%;
+}
+
+@media (min-width: 600px) {
+  .signup-form {
+    flex-direction: row;
+  }
+
+  .signup-form .ml-form-formContent {
+    display: flex;
+  }
+}
+
 .signup-form input {
   flex: 1;
-  padding: 1rem;
-  background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  font-family: var(--font-mono, monospace);
-  font-size: 1rem;
-  border-radius: 0;
+  width: 100%;
+  padding: 1rem !important;
+  background: transparent !important;
+  border: 1px solid #444 !important;
+  color: #fff !important;
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 1rem !important;
+  border-radius: 0 !important;
+}
+
+.signup-form input::placeholder {
+  color: #bbbbbb !important;
+  opacity: 1;
 }
 
 .signup-form input:focus {
   outline: none;
-  border-color: #C8553D;
+  border-color: #C8553D !important;
 }
 
 .signup-form button {
-  padding: 1rem 2rem;
-  background: #F2F0E9;
-  color: #111;
-  border: none;
-  font-family: var(--font-mono, monospace);
-  font-weight: 700;
+  padding: 1rem 2rem !important;
+  background: #F2F0E9 !important;
+  color: #111 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-mono, monospace) !important;
+  font-weight: 700 !important;
   cursor: pointer;
   transition: background 0.3s;
+  width: auto !important;
 }
 
 .signup-form button:hover {
-  background: #C8553D;
-  color: #fff;
+  background: #C8553D !important;
+  color: #fff !important;
 }
 
 .signup-form button.success {
-  background: #4CAF50;
-  color: #fff;
+  background: #4CAF50 !important;
+  color: #fff !important;
+}
+
+.signup-shell .ml-form-successBody {
+  text-align: center;
+}
+
+.signup-shell .ml-form-successContent h4 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display, sans-serif);
+  color: #F2F0E9;
+}
+
+.signup-shell .ml-form-successContent p {
+  margin: 0;
+  font-family: var(--font-mono, monospace);
+  color: #F2F0E9;
+  font-size: 1rem;
+}
+
+.form-success {
+  margin-top: 0.75rem;
+  color: #4CAF50;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .footer-meta {
   border-top: 1px solid #333;
   padding-top: 2rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   font-family: var(--font-mono, monospace);
   font-size: 0.8rem;
   color: #666;
+}
+
+.footer-link {
+  color: #F2F0E9;
+  text-decoration: none;
+  border: 1px solid #333;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  letter-spacing: 0.08em;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.footer-link:hover {
+  background: #C8553D;
+  color: #F2F0E9;
+  border-color: #C8553D;
 }
 
 .reveal {

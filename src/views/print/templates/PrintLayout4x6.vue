@@ -87,8 +87,9 @@ html {
 .print-preview {
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
   padding: 1.25rem;
   background: linear-gradient(135deg, #efede6, #f7f5f0);
   overflow: auto;

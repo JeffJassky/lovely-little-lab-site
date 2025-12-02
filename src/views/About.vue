@@ -18,7 +18,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           </p>
           <div class="pill-row">
             <span class="pill">St. Petersburg, FL</span>
-            <span class="pill">Bi-weekly gatherings</span>
+            <span class="pill">Every Tuesday</span>
             <span class="pill">Volunteer-led</span>
           </div>
         </div>
