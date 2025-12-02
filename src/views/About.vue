@@ -154,7 +154,7 @@ import jeffPortrait from '../public/images/jeff-jassky.jpg';
           collaboratively.
         </p>
         <div class="cta-row">
-          <RouterLink class="button primary" to="/#join">
+          <RouterLink class="button primary" :to="{ name: 'home', hash: '#join' }">
             Join the mailing list
           </RouterLink>
           <a

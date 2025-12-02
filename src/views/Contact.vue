@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const phoneNumber = '917-704-7519';
+const phoneNumber = '(917) 704-7519';
 const email = 'jeff@jeffjassky.com';
 </script>
 
@@ -7,7 +7,7 @@ const email = 'jeff@jeffjassky.com';
   <main class="contact">
     <header class="intro">
       <p class="eyebrow">Contact</p>
-      <h1>Say hi to Lovely Lab.</h1>
+      <h1>Say hi.</h1>
       <p class="lede">
         Want to host an event, ask a question, or share an idea? Reach out
         directly — text is best for quick replies.
@@ -27,7 +27,7 @@ const email = 'jeff@jeffjassky.com';
         <a class="main-link" :href="`tel:${phoneNumber}`">
           {{ phoneNumber }}
         </a>
-        <p class="note">Text is best — quick responses.</p>
+        <p class="note">Text is best - calls may be missed.</p>
       </article>
       <article class="card">
         <p class="label">Email</p>

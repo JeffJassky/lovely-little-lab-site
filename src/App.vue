@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 import TheLogo from './components/TheGearLogo.vue';
+import TheFullLogo from './components/TheFullLogo.vue';
 
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -98,7 +99,9 @@ onBeforeUnmount(() => {
       aria-hidden="true"
     ></div>
     <template v-if="fontsReady">
-      <nav :class="['nav', { 'nav--scrolled': scrolled }]">
+      <nav
+        :class="['nav', { 'nav--scrolled': scrolled, 'nav--open': menuOpen }]"
+      >
         <RouterLink
           to="/"
           class="logo"
@@ -107,46 +110,63 @@ onBeforeUnmount(() => {
           <TheLogo style="width: 20px" />
           LL_ST.PETE
         </RouterLink>
-        <div class="nav-menu">
-          <RouterLink to="/#events" class="nav-link">Events</RouterLink>
-          <RouterLink to="/get-involved" class="nav-link">
-            Get Involved
-          </RouterLink>
-          <RouterLink to="/about" class="nav-link">About</RouterLink>
-          <RouterLink to="/contact" class="nav-link">Contact</RouterLink>
-        </div>
-        <div class="nav-actions">
-          <div class="social-icons">
-            <a
-              class="social-icon"
-              href="http://instagram.com/lovelylabstpete"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Follow Lovely Lab on Instagram"
-              v-tooltip="`Follow @LovelyLabStPete`"
-            >
-              <img src="/instagram-glyph-seeklogo.svg" alt="" />
-            </a>
-            <a
-              v-if="false"
-              class="social-icon social-icon--facebook"
-              href="https://www.facebook.com/people/Lovely-Lab-St-Pete-Makers/61584700285261/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Follow Lovely Lab on Facebook"
-            >
-              <img src="/2023_Facebook_icon.svg" alt="" />
-            </a>
-            <a
-              class="social-icon social-icon--meetup"
-              href="https://www.meetup.com/lovely-lab"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Join the Lovely Lab meetup"
-              v-tooltip="`Join us on Meetup`"
-            ></a>
+        <div class="nav-content" @click.self="closeMenu">
+          <div class="nav-mobile-logo">
+            <TheFullLogo orientation="stacked" />
           </div>
-          <RouterLink to="/#join" class="cta-link">Join the Lab</RouterLink>
+          <div class="nav-menu">
+            <RouterLink to="/#events" class="nav-link" @click="closeMenu">
+              Events
+            </RouterLink>
+            <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
+              Get Involved
+            </RouterLink>
+            <RouterLink to="/about" class="nav-link" @click="closeMenu">
+              About
+            </RouterLink>
+            <RouterLink to="/contact" class="nav-link" @click="closeMenu">
+              Contact
+            </RouterLink>
+          </div>
+          <div class="nav-actions">
+            <div class="social-icons">
+              <a
+                class="social-icon"
+                href="http://instagram.com/lovelylabstpete"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Follow Lovely Lab on Instagram"
+                v-tooltip="`Follow @LovelyLabStPete`"
+              >
+                <img src="/instagram-glyph-seeklogo.svg" alt="" />
+              </a>
+              <a
+                v-if="false"
+                class="social-icon social-icon--facebook"
+                href="https://www.facebook.com/people/Lovely-Lab-St-Pete-Makers/61584700285261/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Follow Lovely Lab on Facebook"
+              >
+                <img src="/2023_Facebook_icon.svg" alt="" />
+              </a>
+              <a
+                class="social-icon social-icon--meetup"
+                href="https://www.meetup.com/lovely-lab"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Join the Lovely Lab meetup"
+                v-tooltip="`Join us on Meetup`"
+              ></a>
+            </div>
+            <RouterLink
+              to="/#join"
+              class="cta-link mobile-cta"
+              @click="closeMenu"
+            >
+              Join the Lab
+            </RouterLink>
+          </div>
         </div>
         <button
           type="button"
@@ -170,63 +190,6 @@ onBeforeUnmount(() => {
           ></span>
         </button>
       </nav>
-
-      <div
-        :class="['mobile-menu', { 'mobile-menu--open': menuOpen }]"
-        @click.self="closeMenu"
-      >
-        <div class="mobile-menu__content">
-          <RouterLink to="/#events" class="nav-link" @click="closeMenu">
-            Events
-          </RouterLink>
-          <RouterLink
-            to="/get-involved"
-            class="cta-link mobile-cta"
-            @click="closeMenu"
-          >
-            Join the Lab
-          </RouterLink>
-          <RouterLink to="/get-involved" class="nav-link" @click="closeMenu">
-            Get Involved
-          </RouterLink>
-          <RouterLink to="/about" class="nav-link" @click="closeMenu">
-            About
-          </RouterLink>
-          <RouterLink to="/contact" class="nav-link" @click="closeMenu">
-            Contact
-          </RouterLink>
-          <div class="mobile-social">
-            <a
-              class="social-icon"
-              href="http://instagram.com/lovelylabstpete"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Follow Lovely Lab on Instagram"
-              v-tooltip="`Follow @LovelyLabStPete`"
-            >
-              <img src="/instagram-glyph-seeklogo.svg" alt="" />
-            </a>
-            <a
-              v-if="false"
-              class="social-icon social-icon--facebook"
-              href="https://www.facebook.com/people/Lovely-Lab-St-Pete-Makers/61584700285261/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Follow Lovely Lab on Facebook"
-            >
-              <img src="/2023_Facebook_icon.svg" alt="" />
-            </a>
-            <a
-              class="social-icon social-icon--meetup"
-              href="https://www.meetup.com/lovely-lab"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Join the Lovely Lab meetup"
-              v-tooltip="`Join us on Meetup`"
-            ></a>
-          </div>
-        </div>
-      </div>
 
       <RouterView />
     </template>
@@ -350,6 +313,17 @@ onBeforeUnmount(() => {
   letter-spacing: 1px;
 }
 
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+
+.nav-mobile-logo {
+  display: none;
+}
+
 .nav-menu {
   display: flex;
   gap: 1.5rem;
@@ -360,6 +334,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 0.85rem;
+  margin-left: auto;
 }
 
 .social-icons {
@@ -495,80 +470,13 @@ onBeforeUnmount(() => {
   transform: translate(-50%, -50%) rotate(0deg) scaleX(0.9);
 }
 
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem 1.5rem 3rem;
-  background: var(--bg);
-  color: var(--ink);
-  opacity: 0;
-  transform: translateY(-12px);
-  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
-  pointer-events: none;
-  z-index: 130;
-}
-
-.mobile-menu--open {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.mobile-menu__content {
-  width: min(480px, 90vw);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-  text-align: center;
-  font-family: var(--font-mono, monospace);
-  font-weight: 700;
-  min-height: calc(100vh - 8rem);
-}
-
-.mobile-menu .nav-link {
-  color: var(--ink);
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-bottom: 1px solid transparent;
-}
-
-.mobile-menu .nav-link:hover {
-  border-bottom-color: rgba(17, 17, 17, 0.25);
-}
-
-.mobile-cta {
-  color: var(--bg);
-  background: var(--ink);
-  border: 1px solid var(--ink);
-  margin-top: 0.5rem;
-}
-
-.mobile-cta:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.mobile-social {
-  margin-top: auto;
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-}
-
 .v-popper--theme-tooltip .v-popper__inner {
   font-family: var(--font-mono, monospace);
   font-size: 0.8rem;
 }
 
 @media (min-width: 901px) {
-  .menu-toggle,
-  .mobile-menu {
+  .menu-toggle {
     display: none;
   }
 }
@@ -580,14 +488,53 @@ onBeforeUnmount(() => {
     justify-items: start;
     text-align: left;
     padding: 1rem 1.25rem;
+    box-sizing: border-box;
+  }
+
+  .nav-content {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    background: var(--bg);
+    padding: 3rem 1rem 3rem 1rem;
+    min-height: 100vh;
+    gap: 1.25rem;
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 130;
+    overflow-x: hidden;
+  }
+
+  .nav--open .nav-content {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
   }
 
   .nav-menu {
-    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
   }
 
-  .nav-actions {
-    display: none;
+  .nav-mobile-logo {
+    display: block;
+    width: 100%;
+    max-width: 160px;
+    margin: 0 auto 0.5rem;
   }
 
   .logo {
@@ -600,8 +547,62 @@ onBeforeUnmount(() => {
     justify-self: end;
   }
 
-  .mobile-menu {
-    display: flex;
+  .nav-link {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav-link:hover {
+    border-bottom-color: rgba(17, 17, 17, 0.25);
+  }
+
+  .nav-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 0;
+    width: 100%;
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+	margin-top: 2em;
+  }
+
+  .mobile-cta {
+    color: var(--bg);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    margin-top: 0.5rem;
+  }
+
+  .mobile-cta:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .social-icons {
+    justify-content: center;
+    gap: 0.75rem;
+    order: 2;
+  }
+
+  .nav-actions .cta-link {
+    order: 1;
+  }
+
+  .nav-mobile-logo .orientation-stacked .logo-mark {
+    width: clamp(3.5rem, 32vw, 3.5rem);
+  }
+
+  .nav-mobile-logo .orientation-stacked .logo-text {
+    font-size: clamp(1rem, 4vw, 1.8rem);
+    left: 0;
+  }
+
+  .nav-mobile-logo .orientation-stacked .logo-text span {
+    -webkit-text-stroke: 1px var(--ink, #111);
   }
 }
 </style>
