@@ -16,6 +16,8 @@ const ST_PETE_CENTER = {
   lng: -82.639
 };
 
+const MAP_ZOOM = 10;
+
 const CUSTOM_MAP_STYLES = [
   {
     elementType: 'geometry',
@@ -145,14 +147,18 @@ const initMap = (maps: GoogleMaps) => {
 
   mapInstance = new maps.Map(mapElement.value, {
     center: ST_PETE_CENTER,
-    zoom: 10,
+    zoom: MAP_ZOOM,
+    minZoom: MAP_ZOOM,
+    maxZoom: MAP_ZOOM,
     styles: CUSTOM_MAP_STYLES,
     disableDefaultUI: true,
     clickableIcons: false,
     mapTypeControl: false,
     streetViewControl: false,
     fullscreenControl: false,
-    gestureHandling: 'greedy'
+    gestureHandling: 'none',
+    disableDoubleClickZoom: true,
+    scrollwheel: false
   });
 };
 

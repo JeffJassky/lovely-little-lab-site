@@ -183,6 +183,7 @@ import TheGearLogo from '../components/TheGearLogo.vue';
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.8rem;
+  border-radius: 1rem;
 }
 
 .card-grid .card {
