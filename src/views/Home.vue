@@ -79,22 +79,39 @@ onUnmounted(() => {
       <div class="hero-content reveal">
         <the-full-logo />
         <p class="hero-tagline">
-          Weekly creative nights for people who make things<br />
-          <span class="invert">in St. Pete, FL</span>
+          Creative nights for people who make things <br />
+          <span class="invert">Every Tuesday, 6-9pm, in St. Pete, FL</span>
         </p>
       </div>
     </header>
 
+    <section id="next-session" class="next-session reveal">
+      <div class="next-session-grid">
+        <div class="next-label">
+          <div class="next-label-text">NEXT SESSION</div>
+          <span class="label-shadow"></span>
+        </div>
+        <div class="next-details">
+          <p class="next-date">Tuesday · December 16 · 6–9pm</p>
+          <p class="next-location">Location TBD (near DTSP)</p>
+          <p class="next-note">
+            Open table vibes. Bring a project or just come hang,<br />meet
+            makers, and get inspired.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section id="vibe" class="manifesto reveal">
       <div class="grid-layout">
         <div class="manifesto-header">
-          <h2>WHAT'S LL?</h2>
+          <h2>HOW'S LL WORK?</h2>
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            Weekly creative nights where you can show up with your project, an
-            idea, or nothing at all. Meet great people, work on your stuff and
-            stay inspired.
+            Show up with your project, an idea, a half-finished thing, or
+            nothing at all. Meet great people, work on your stuff and stay
+            inspired.
           </p>
           <div class="vibe-list">
             <span>Make stuff.</span>
@@ -302,6 +319,127 @@ onUnmounted(() => {
   scroll-margin-top: 140px;
 }
 
+.next-session {
+  padding: 5rem 1rem 4rem 1rem;
+  margin: 0 auto;
+  max-width: 700px;
+  width: 80%;
+  border:2px solid var(--ink);
+  position: relative;
+  background: white;
+  box-shadow: 0.3em 0.3em 0 #c8553d;
+  margin-bottom: 3rem;
+}
+
+.next-session-grid {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+}
+
+.next-label {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.next-label-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  background: #111;
+  color: #f2f0e9;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.label-shadow {
+  display: block;
+  width: 12px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #111,
+    #111 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  opacity: 0.4;
+}
+
+.next-details {
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+}
+
+.next-date,
+.next-location {
+  font-family: var(--font-mono, monospace);
+  margin: 0;
+  font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+  letter-spacing: 0.04em;
+}
+
+.next-date{
+	font-weight: 600;
+}
+
+.next-location {
+  color: #c8553d;
+  font-size: clamp(1rem, 2.3vw, 1.25rem);
+}
+
+.next-note {
+  margin: 0.5rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  max-width: 52ch;
+}
+
+.next-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  margin-top: 0.5rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #111;
+  background: #f2f0e9;
+  color: #111;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0.25em 0.25em 0 #c8553d;
+}
+
+.next-cta:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 0.45em 0.45em 0 #111;
+  background: #fff;
+}
+
+@media (max-width: 767px) {
+  .next-label {
+    justify-content: center;
+  }
+
+  .next-details {
+    text-align: center;
+    align-items: center;
+  }
+}
+
 .hero {
   height: 70vh;
   display: flex;
@@ -309,7 +447,6 @@ onUnmounted(() => {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .hero-content{
@@ -322,7 +459,7 @@ onUnmounted(() => {
 .hero-tagline {
   margin-top: 4rem;
   font-family: var(--font-mono, monospace);
-  font-size: 1.1rem;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
   line-height: 1.5;
   font-weight: 500;
   .invert {
@@ -332,8 +469,7 @@ onUnmounted(() => {
 
 
 .manifesto {
-  padding: 5rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 5rem 0;
 }
 
 .manifesto-header h2 {
@@ -350,6 +486,7 @@ onUnmounted(() => {
   line-height: 1.2;
   margin-bottom: 3rem;
   max-width: 800px;
+  margin-top: 0;
 }
 
 .vibe-list {
