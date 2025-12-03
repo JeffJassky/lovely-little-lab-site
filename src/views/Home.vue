@@ -88,15 +88,15 @@ onUnmounted(() => {
     <section id="next-session" class="next-session reveal">
       <div class="next-session-grid">
         <div class="next-label">
-          <div class="next-label-text">NEXT SESSION</div>
+          <div class="next-label-text">Next Session:</div>
           <span class="label-shadow"></span>
         </div>
         <div class="next-details">
           <p class="next-date">Tuesday · December 16 · 6–9pm</p>
           <p class="next-location">Location TBD (near DTSP)</p>
           <p class="next-note">
-            Open table vibes. Bring a project or just come hang,<br />meet
-            makers, and get inspired.
+            Open tables. Bring a project or just come hang,<br />meet makers,
+            and get inspired.
           </p>
         </div>
       </div>
@@ -352,12 +352,11 @@ onUnmounted(() => {
 .next-label-text {
   font-family: var(--font-mono, monospace);
   font-size: 1rem;
-  letter-spacing: 0.12em;
   background: #111;
   color: #f2f0e9;
   padding: 0.5rem 1rem;
   white-space: nowrap;
-  font-weight: 600;
+  font-style: italic;
 }
 
 .label-shadow {
@@ -395,6 +394,7 @@ onUnmounted(() => {
 .next-location {
   color: #c8553d;
   font-size: clamp(1rem, 2.3vw, 1.25rem);
+  font-style: italic;
 }
 
 .next-note {
