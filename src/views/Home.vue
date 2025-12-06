@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import TheFullLogo from '../components/TheFullLogo.vue';
 import TheMarquee from '../components/TheMarquee.vue';
@@ -20,38 +20,288 @@ const disciplines = [
 ];
 
 
-const categories = [
+const eventTypes = [
   {
-    title: 'MAKE',
-    subtitle: 'Build Solo or Together',
-    events: [
-      { name: 'Co-working Nights', desc: 'Get shit done in a shared space.' },
-      { name: '3-Hour Sprint', desc: 'High intensity work jam.' },
-      { name: 'Hackathons', desc: 'Open to all mediums, not just code.' }
+    title: 'Tech & Code Night',
+    whichTuesday: 1,
+    cadence: '1st Tuesdays',
+    intro:
+      'Join us if you\'re interested in coding, AI, robotics, game dev, electronics, or other fun tech.',
+    details: [
+	'Laptop-friendly, collaborative, curiosity-driven.',
+		'Open to curious minds and professionals alike.'
     ]
   },
   {
-    title: 'SHARE',
-    subtitle: 'Creative Expression',
-    events: [
-      { name: 'Work Share Night', desc: 'Share completed projects or WIPs. No polish required.' },
-      { name: 'Process Night', desc: 'Share how you make your stuff.' },
-      { name: 'Inspiration Night', desc: 'Moodboards, obsessions, and rabbit holes.' }
+    title: 'Art & Design Night',
+    whichTuesday: 2,
+    cadence: '2nd Tuesdays',
+    intro:
+      'Join if you\'re interested in jewelry, fashion, furniture, industrial design, sculpture, or anything with form, materials and composition.',
+	  details: [
+		'Laptop and hand-tool friendly.',
+      'Make progress or just surround yourself with people who speak your creative language.'
     ]
   },
   {
-    title: 'CONNECT',
-    subtitle: 'Explore & Learn',
-    events: [
-      { name: 'Workshops', desc: 'Teach your stuff. Learn from others.' },
-      { name: 'Creative Tech Nite', desc: 'Art with code + electronics' }
+    title: 'Craft & Make Night',
+    whichTuesday: 3,
+    cadence: '3rd Tuesdays',
+    intro:
+      'Join if you\'re interested in making anything with your hands.',
+    details: [
+		'No dust, fumes, or loud tools not allowed (yet).',
+	  'Bring your hand tools, sketchbooks, notebooks, or whatever you like.'
+    ]
+  },
+  {
+    title: 'Open Lab Night',
+    whichTuesday: 4,
+    cadence: '4th Tuesdays',
+    intro:
+      'A mixed-discipline creative night for anyone who makes things: physical or digital.',
+    details: [
+      'Bring whatever you are working on, explore new ideas, hop into conversations, or just soak up the energy.',
+      'Low pressure. Loose structure. A great entry point for first-timers.'
     ]
   }
 ];
 
 const observer = ref<IntersectionObserver | null>(null);
+const isAppleDevice = ref(false);
+
+const EVENT_DURATION_MS = 3 * 60 * 60 * 1000;
+const EVENT_WEEKDAY = 2; // Tuesday
+const EVENT_START_HOUR = 18;
+const timeZone = 'America/New_York';
+const calendarLocation = 'St. Petersburg, FL';
+const CALENDAR_CUTOFF = new Date(2025, 11, 15, 23, 59, 59); // Do not show events beyond Dec 15, 2025
+const calendarCutoffTime = CALENDAR_CUTOFF.getTime();
+
+const formatLocalForCalendar = (date: Date) => {
+  const pad = (value: number) => value.toString().padStart(2, '0');
+  return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}${pad(date.getSeconds())}`;
+};
+
+const formatUtcForCalendar = (date: Date) => {
+  const pad = (value: number) => value.toString().padStart(2, '0');
+  return `${date.getUTCFullYear()}${pad(date.getUTCMonth() + 1)}${pad(date.getUTCDate())}T${pad(date.getUTCHours())}${pad(date.getUTCMinutes())}${pad(date.getUTCSeconds())}Z`;
+};
+
+type ScheduledEvent = {
+  date: string;
+  name: string;
+  desc: string;
+  start: Date;
+  end: Date;
+  monthTitle: string;
+};
+
+type CalendarCategory = {
+  title: string;
+  events: ScheduledEvent[];
+};
+
+const formatOrdinal = (value: number) => {
+  const suffixes: Record<number, string> = { 1: 'st', 2: 'nd', 3: 'rd' };
+  const v = value % 100;
+  if (v >= 11 && v <= 13) return `${value}th`;
+  return `${value}${suffixes[value % 10] || 'th'}`;
+};
+
+const getNthWeekday = (year: number, monthIndex: number, weekday: number, occurrence: number) => {
+  const first = new Date(year, monthIndex, 1);
+  const offset = (weekday - first.getDay() + 7) % 7;
+  const day = 1 + offset + 7 * (occurrence - 1);
+  return new Date(year, monthIndex, day, EVENT_START_HOUR, 0, 0);
+};
+
+const buildGoogleCalendarLink = (event: ScheduledEvent) => {
+  const start = event.start;
+  const end = event.end ?? new Date(start.getTime() + EVENT_DURATION_MS);
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.name,
+    details: `${event.desc} · Lovely Lab`,
+    location: calendarLocation,
+    ctz: timeZone,
+    dates: `${formatLocalForCalendar(start)}/${formatLocalForCalendar(end)}`
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+};
+
+const buildIcsLink = (event: ScheduledEvent) => {
+  const start = event.start;
+  const end = event.end ?? new Date(start.getTime() + EVENT_DURATION_MS);
+  const uid = `lovely-lab-${event.name}-${formatLocalForCalendar(start)}`.replace(/\s+/g, '-').toLowerCase();
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Lovely Lab//Meetup//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${formatUtcForCalendar(new Date())}`,
+    `DTSTART;TZID=${timeZone}:${formatLocalForCalendar(start)}`,
+    `DTEND;TZID=${timeZone}:${formatLocalForCalendar(end)}`,
+    `SUMMARY:${event.name}`,
+    `DESCRIPTION:${event.desc}`,
+    `LOCATION:${calendarLocation}`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\n');
+
+  return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
+};
+
+const nextThreeMonths = () => {
+  const months: Date[] = [];
+  const now = new Date();
+
+  for (let i = 0; i < 3; i++) {
+    months.push(new Date(now.getFullYear(), now.getMonth() + i, 1));
+  }
+
+  return months;
+};
+
+const buildMonthlySchedule = (): CalendarCategory[] => {
+  const sortedTypes = [...eventTypes].sort((a, b) => a.whichTuesday - b.whichTuesday);
+
+  return nextThreeMonths()
+    .map(monthDate => {
+      const monthIndex = monthDate.getMonth();
+      const year = monthDate.getFullYear();
+      const monthTitle = monthDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
+
+      const events: ScheduledEvent[] = sortedTypes
+        .map(type => {
+          const start = getNthWeekday(year, monthIndex, EVENT_WEEKDAY, type.whichTuesday);
+          const end = new Date(start.getTime() + EVENT_DURATION_MS);
+
+          return {
+            date: formatOrdinal(start.getDate()),
+            name: type.title,
+            desc: type.intro,
+            start,
+            end,
+            monthTitle
+          };
+        })
+        .filter(event => event.start.getTime() >= calendarCutoffTime);
+
+      if (!events.length) return null;
+
+      return {
+        title: monthTitle,
+        events
+      };
+    })
+    .filter((cat): cat is CalendarCategory => Boolean(cat));
+};
+
+const categories = computed(() => buildMonthlySchedule());
+
+const formatTimeLabel = (date: Date) => {
+  const hours = date.getHours();
+  const mins = date.getMinutes();
+  const displayHour = ((hours + 11) % 12) + 1;
+  const suffix = hours >= 12 ? 'pm' : 'am';
+  const minuteStr = mins ? `:${mins.toString().padStart(2, '0')}` : '';
+  return `${displayHour}${minuteStr}${suffix}`;
+};
+
+const nextSession = computed<ScheduledEvent | null>(() => {
+  const now = new Date();
+  const allEvents = categories.value.flatMap(cat => cat.events);
+
+  if (!allEvents.length) return null;
+
+  const future = allEvents
+    .filter(event => event.start.getTime() >= now.getTime())
+    .sort((a, b) => a.start.getTime() - b.start.getTime());
+
+  const allSorted = [...allEvents].sort((a, b) => a.start.getTime() - b.start.getTime());
+
+  return future[0] ?? allSorted[0] ?? null;
+});
+
+const nextSessionDisplay = computed(() => {
+  if (!nextSession.value) return null;
+  const event = nextSession.value;
+  const dateLabel = event.start.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric'
+  });
+  const timeLabel = `${formatTimeLabel(event.start)} – ${formatTimeLabel(event.end)}`;
+
+  return {
+    title: event.name,
+    date: `${dateLabel} · ${timeLabel}`,
+    desc: event.desc
+  };
+});
+
+const detectAppleDevice = () => {
+  if (typeof navigator === 'undefined') return false;
+  const platform = (navigator.platform || '').toLowerCase();
+  const ua = (navigator.userAgent || '').toLowerCase();
+  const maxTouchPoints = (navigator as any).maxTouchPoints || 0;
+  const applePlatform = /mac|iphone|ipad|ipod/.test(platform);
+  const ipadOnMac = platform.includes('mac') && maxTouchPoints > 1;
+  const appleUa = /macintosh|iphone|ipad|ipod/.test(ua);
+  return applePlatform || appleUa || ipadOnMac;
+};
+
+const buildEventJsonLd = computed(() => ({
+  '@context': 'https://schema.org',
+  '@graph': categories.value.flatMap(cat =>
+    cat.events.map(event => ({
+      '@type': 'Event',
+      name: event.name,
+      description: event.desc,
+      startDate: event.start.toISOString(),
+      endDate: event.end.toISOString(),
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      eventStatus: 'https://schema.org/EventScheduled',
+      location: {
+        '@type': 'Place',
+        name: 'Lovely Lab',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'St. Petersburg',
+          addressRegion: 'FL',
+          addressCountry: 'US'
+        }
+      },
+      organizer: {
+        '@type': 'Organization',
+        name: 'Lovely Lab',
+        url: 'https://LovelyLab.org/'
+      }
+    }))
+  )
+}));
+
+const upsertJsonLd = () => {
+  if (typeof document === 'undefined') return;
+  const existing = document.getElementById('ll-events-jsonld');
+  existing?.remove();
+
+  const script = document.createElement('script');
+  script.id = 'll-events-jsonld';
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(buildEventJsonLd.value);
+  document.head.appendChild(script);
+};
 
 onMounted(() => {
+  isAppleDevice.value = detectAppleDevice();
+
   observer.value = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
@@ -66,6 +316,8 @@ onMounted(() => {
   document.querySelectorAll('.reveal').forEach(el => {
     observer.value?.observe(el);
   });
+
+  upsertJsonLd();
 });
 
 onUnmounted(() => {
@@ -80,7 +332,7 @@ onUnmounted(() => {
         <the-full-logo />
         <p class="hero-tagline">
           Creative nights for people who make things <br />
-          <span class="invert">Every Tuesday, 6-9pm, in St. Pete, FL</span>
+          <span class="invert">in St. Pete, FL · Every Tuesday · 6-9pm</span>
         </p>
       </div>
     </header>
@@ -92,11 +344,19 @@ onUnmounted(() => {
           <span class="label-shadow"></span>
         </div>
         <div class="next-details">
-          <p class="next-date">Tuesday · December 16 · 6–9pm</p>
+          <p class="next-event-title">
+            {{ nextSessionDisplay?.title || 'Upcoming session' }}
+          </p>
+          <p class="next-date" v-if="nextSessionDisplay">
+            {{ nextSessionDisplay.date }}
+          </p>
           <p class="next-location">Location TBD (near DTSP)</p>
-          <p class="next-note">
-            Open tables. Bring a project or just come hang,<br />meet makers,
-            and get inspired.
+          <p class="next-note" v-if="nextSessionDisplay">
+            {{ nextSessionDisplay.desc }}
+          </p>
+          <p class="next-note" v-else>
+            Open tables. Bring a project or just come hang, meet makers, and get
+            inspired.
           </p>
         </div>
       </div>
@@ -125,18 +385,75 @@ onUnmounted(() => {
     <the-marquee :items="disciplines" />
 
     <section id="events" class="program reveal">
-      <div class="section-label">EVENT CONCEPTS (TBD)</div>
+      <div class="section-label">MEETUP SCHEDULE</div>
       <div class="program-grid">
         <div v-for="cat in categories" :key="cat.title" class="category-card">
           <h3 class="cat-title">{{ cat.title }}</h3>
-          <p class="cat-sub">{{ cat.subtitle }}</p>
           <ul class="event-list">
-            <li v-for="event in cat.events" :key="event.name">
-              <strong>{{ event.name }}</strong>
-              <span class="event-desc">{{ event.desc }}</span>
+            <li v-for="event in cat.events" :key="`${cat.title}-${event.name}`">
+              <div
+                class="label"
+                v-if="event.date === nextSession.date"
+                style="margin-bottom: 0.5em;"
+              >
+                Next Session
+              </div>
+              <div class="event-row">
+                <span class="event-date">{{ event.date }}</span>
+                <strong>{{ event.name }}</strong>
+              </div>
+              <div class="event-meta">
+                <span class="event-desc">{{ event.desc }}</span>
+                <v-dropdown placement="bottom-start" :distance="8">
+                  <button type="button" class="calendar-link">
+                    + Add to calendar
+                  </button>
+                  <template #popper>
+                    <div class="calendar-popover">
+                      <a
+                        class="calendar-option"
+                        :href="buildIcsLink(event)"
+                        :download="`${event.name.replace(/\s+/g, '-')}.ics`"
+                      >
+                        {{ isAppleDevice ? 'Apple / iCal' : 'Download .ics' }}
+                      </a>
+                      <a
+                        class="calendar-option"
+                        :href="buildGoogleCalendarLink(event)"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Google Calendar
+                      </a>
+                    </div>
+                  </template>
+                </v-dropdown>
+              </div>
             </li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    <section id="event-types" class="program event-types reveal">
+      <div class="section-label">MONTHLY EVENTS</div>
+      <div class="program-grid event-type-grid">
+        <article
+          v-for="type in eventTypes"
+          :key="type.title"
+          class="category-card event-type-card"
+        >
+          <div class="event-type-header">
+            <h3 class="cat-title">{{ type.title }}</h3>
+            <p class="cadence-badge">{{ type.cadence }}</p>
+          </div>
+          <p class="event-intro">{{ type.intro }}</p>
+          <ul class="event-detail-list">
+            <li v-for="(detail, index) in type.details" :key="index">
+              {{ detail }}
+            </li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -147,9 +464,9 @@ onUnmounted(() => {
         </div>
         <div class="manifesto-text">
           <p class="lead">
-            LL is for makers, craftspeople, designers, artists and engineers to
-            coexist, work on stuff solo or collaboratively, and make progress on
-            the things they care about.
+            LL is for people interested in designing, crafting, engineering and
+            making things to coexist, work on stuff solo or collaboratively, and
+            make progress on the things they care about.
           </p>
           <p class="lead">
             It’s a home base for people who love making physical and digital
@@ -379,11 +696,21 @@ onUnmounted(() => {
   align-content: start;
 }
 
+.next-event-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .next-date,
 .next-location {
   font-family: var(--font-mono, monospace);
   margin: 0;
-  font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+  font-size: clamp(1.2rem, 2.3vw, 1.5rem);
   letter-spacing: 0.04em;
 }
 
@@ -518,9 +845,15 @@ onUnmounted(() => {
   display: inline-block;
 }
 
+.event-types {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
 .program-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 4rem 2rem;
 }
 
@@ -530,14 +863,70 @@ onUnmounted(() => {
   transition: transform 0.3s ease;
 }
 
-.category-card:hover {
-  transform: translateX(10px);
+
+.event-type-card {
+  padding: 0;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1.5rem 1.75rem;
+  border-radius: 14px;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.05);
+}
+
+.event-type-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+.cadence-badge {
+  font-family: var(--font-mono, monospace);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #C8553D;
+  padding: 0;
+  margin: 0;
+}
+
+.event-intro {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #222;
+}
+
+.event-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.event-detail-list li {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.event-detail-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #C8553D;
 }
 
 .cat-title {
   font-family: var(--font-display, sans-serif);
   font-size: 2.5rem;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
 }
 
 .cat-sub {
@@ -550,13 +939,29 @@ onUnmounted(() => {
 .event-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 1.5em 0 0 0;
 }
 
 .event-list li {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.event-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5em;
+}
+
+.event-date {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: #C8553D;
+  text-transform: uppercase;
 }
 
 .event-list strong {
@@ -565,9 +970,64 @@ onUnmounted(() => {
   margin-bottom: 0.25rem;
 }
 
+.event-row strong {
+  margin: 0;
+  display: inline;
+  font-family: var(--font-display, sans-serif);
+  text-transform: uppercase;
+}
+
+.event-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
 .event-desc {
   font-size: 0.95rem;
   color: #444;
+  line-height: 1.5em;
+}
+
+.calendar-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  color: #6a6458;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.calendar-link:hover {
+  color: #c8553d;
+}
+
+.calendar-popover {
+  background: #fff;
+  border: 1px solid #dcd6ca;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  min-width: 180px;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.calendar-option {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  color: #2c271f;
+  text-decoration: none;
+  padding: 0.2rem 0.05rem;
+}
+
+.calendar-option:hover {
+  color: #c8553d;
 }
 
 .logistics {

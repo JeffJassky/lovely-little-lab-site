@@ -64,7 +64,7 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
         <div class="cta-text">
           <h2>JOIN THE NEXT ONE →</h2>
           <div class="links">
-            <span>LovelyLittleLab.com</span>
+            <span>LovelyLab.org</span>
             <span><span class="handle-at">@</span>LovelyLittleLab</span>
           </div>
         </div>

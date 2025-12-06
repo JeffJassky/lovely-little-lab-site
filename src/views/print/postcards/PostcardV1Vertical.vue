@@ -54,7 +54,7 @@ import TheFullLogo from '../../../components/TheGearLogo.vue';
             <div class="links">
               <span class="handle"
                 ><span class="at-symbol">@</span>LovelyLittleLab</span
-              ><br /><span>LovelyLittleLab.com</span><br />
+              ><br /><span>LovelyLab.org</span><br />
             </div>
           </div>
           <div class="qr-placeholder">

@@ -75,9 +75,7 @@ import TheGearLogo from '../components/TheGearLogo.vue';
         <article class="card highlight">
           <h3>Just curious?</h3>
           <p>Come hang. Meet people. Make something cool. You’re invited.</p>
-          <a class="cta inline" href="mailto:hello@lovelylittlelab.com"
-            >Say hi</a
-          >
+          <a class="cta inline" href="mailto:jeff@jeffjassky.com">Say hi</a>
         </article>
       </div>
     </div>
